@@ -1,0 +1,110 @@
+/* PriceDisplay Component Styles */
+
+.price-display {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-variant-numeric: tabular-nums;
+}
+
+/* Value styling */
+.price-display__value {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Sizes */
+.price-display--sm .price-display__value {
+    font-size: var(--font-size-sm);
+}
+
+.price-display--md .price-display__value {
+    font-size: var(--font-size-lg);
+}
+
+.price-display--lg .price-display__value {
+    font-size: var(--font-size-2xl);
+}
+
+.price-display--xl .price-display__value {
+    font-size: var(--font-size-4xl);
+}
+
+/* Change indicator */
+.price-display__change {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-weight: 600;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+}
+
+.price-display--sm .price-display__change {
+    font-size: var(--font-size-xs);
+}
+
+.price-display--md .price-display__change {
+    font-size: var(--font-size-sm);
+}
+
+.price-display--lg .price-display__change {
+    font-size: var(--font-size-base);
+}
+
+.price-display--xl .price-display__change {
+    font-size: var(--font-size-lg);
+}
+
+/* Positive */
+.price-display__change--positive {
+    color: var(--color-success);
+    background: rgba(34, 197, 94, 0.1);
+}
+
+/* Negative */
+.price-display__change--negative {
+    color: var(--color-danger);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+/* Neutral */
+.price-display__change--neutral {
+    color: var(--text-muted);
+    background: var(--bg-tertiary);
+}
+
+/* Icon */
+.price-display__icon {
+    width: 1em;
+    height: 1em;
+}
+
+/* Animation effects for large changes */
+.price-display__change--positive.price-display__change--flash {
+    animation: flash-positive 0.5s ease-out;
+}
+
+.price-display__change--negative.price-display__change--flash {
+    animation: flash-negative 0.5s ease-out;
+}
+
+@keyframes flash-positive {
+    0% {
+        background: rgba(34, 197, 94, 0.4);
+    }
+
+    100% {
+        background: rgba(34, 197, 94, 0.1);
+    }
+}
+
+@keyframes flash-negative {
+    0% {
+        background: rgba(239, 68, 68, 0.4);
+    }
+
+    100% {
+        background: rgba(239, 68, 68, 0.1);
+    }
+}

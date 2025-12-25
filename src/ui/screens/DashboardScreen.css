@@ -1,0 +1,311 @@
+/* Dashboard Screen Styles */
+
+.dashboard {
+    min-height: 100vh;
+    background: var(--bg-primary);
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-4);
+}
+
+/* Header */
+.dashboard__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-5);
+}
+
+.dashboard__header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.dashboard__title {
+    font-family: var(--font-family-display);
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.dashboard__turn-progress {
+    width: 120px;
+}
+
+/* Main grid */
+.dashboard__main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr;
+    gap: var(--space-4);
+}
+
+.dashboard__portfolio {
+    grid-column: 1;
+    grid-row: 1 / 3;
+}
+
+.dashboard__market {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.dashboard__news {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.dashboard__section-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+    color: var(--text-primary);
+}
+
+.dashboard__section-header h2 {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Portfolio Summary */
+.portfolio-summary {
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--bg-tertiary);
+}
+
+.portfolio-summary__total {
+    text-align: center;
+    margin-bottom: var(--space-4);
+}
+
+.portfolio-summary__label {
+    display: block;
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-bottom: var(--space-1);
+}
+
+.portfolio-summary__value {
+    display: block;
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.portfolio-summary__change {
+    display: inline-block;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    margin-top: var(--space-2);
+}
+
+.portfolio-summary__change.positive {
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--color-success);
+}
+
+.portfolio-summary__change.negative {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--color-danger);
+}
+
+.portfolio-summary__breakdown {
+    display: flex;
+    justify-content: space-around;
+}
+
+.portfolio-summary__item {
+    text-align: center;
+}
+
+.portfolio-summary__item-label {
+    display: block;
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+.portfolio-summary__item-value {
+    display: block;
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Holdings list */
+.holdings-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.holding-row {
+    display: flex;
+    align-items: center;
+    padding: var(--space-3);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+}
+
+.holding-row__ticker {
+    font-weight: 700;
+    color: var(--text-primary);
+    width: 60px;
+}
+
+.holding-row__shares {
+    flex: 1;
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+.holding-row__pnl {
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+}
+
+.holding-row__pnl.positive {
+    color: var(--color-success);
+}
+
+.holding-row__pnl.negative {
+    color: var(--color-danger);
+}
+
+.holdings-empty {
+    text-align: center;
+    padding: var(--space-6);
+    color: var(--text-muted);
+}
+
+.holdings-empty p {
+    margin: 0;
+}
+
+/* Market list */
+.market-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.stock-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.stock-row:hover {
+    background: var(--bg-tertiary);
+    transform: translateX(4px);
+}
+
+.stock-row__info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stock-row__ticker {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.stock-row__name {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+.stock-row__price {
+    text-align: right;
+}
+
+.stock-row__value {
+    display: block;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.stock-row__change {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+}
+
+.stock-row__change.positive {
+    color: var(--color-success);
+}
+
+.stock-row__change.negative {
+    color: var(--color-danger);
+}
+
+/* News list */
+.news-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.news-card {
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+}
+
+.news-card--positive {
+    background: rgba(34, 197, 94, 0.1);
+    border-left: 3px solid var(--color-success);
+}
+
+.news-card--negative {
+    background: rgba(239, 68, 68, 0.1);
+    border-left: 3px solid var(--color-danger);
+}
+
+.news-card__headline {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+    line-height: 1.4;
+}
+
+/* Footer */
+.dashboard__footer {
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--bg-tertiary);
+    margin-top: var(--space-4);
+}
+
+.dashboard__actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dashboard__main {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+
+    .dashboard__portfolio,
+    .dashboard__market,
+    .dashboard__news {
+        grid-column: 1;
+        grid-row: auto;
+    }
+}

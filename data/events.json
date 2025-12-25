@@ -1,0 +1,128 @@
+{
+    "version": "1.0",
+    "events": [
+        {
+            "id": "earnings_beat_general",
+            "type": "earnings_beat",
+            "affectedTickers": [],
+            "impact": "moderate",
+            "priceImpact": 0.08,
+            "duration": 2,
+            "headline": "{ticker} Reports Amazing Earnings!",
+            "explanation": "When a company makes more money than people expected, investors get excited and want to buy more shares.",
+            "learningLink": "What are earnings?"
+        },
+        {
+            "id": "earnings_miss_general",
+            "type": "earnings_miss",
+            "affectedTickers": [],
+            "impact": "moderate",
+            "priceImpact": -0.10,
+            "duration": 2,
+            "headline": "{ticker} Disappoints With Low Earnings",
+            "explanation": "When a company makes less money than expected, some investors sell their shares because they're worried.",
+            "learningLink": "What are earnings?"
+        },
+        {
+            "id": "product_launch_tech",
+            "type": "product_launch",
+            "affectedTickers": [
+                "ZAP",
+                "GMR",
+                "SKY",
+                "CLD"
+            ],
+            "impact": "major",
+            "priceImpact": 0.12,
+            "duration": 3,
+            "headline": "{ticker} Launches Exciting New Product!",
+            "explanation": "When a company releases a cool new product that everyone wants, more people want to own the company's stock.",
+            "learningLink": "How do products affect stock prices?"
+        },
+        {
+            "id": "sector_trend_tech_up",
+            "type": "sector_trend_up",
+            "affectedTickers": "sector",
+            "affectedSector": "tech",
+            "impact": "minor",
+            "priceImpact": 0.05,
+            "duration": 4,
+            "headline": "Tech Stocks Are Hot Right Now!",
+            "explanation": "Sometimes investors get really excited about one type of company, like technology, and all those stocks go up together.",
+            "learningLink": "What is a sector?"
+        },
+        {
+            "id": "sector_trend_tech_down",
+            "type": "sector_trend_down",
+            "affectedTickers": "sector",
+            "affectedSector": "tech",
+            "impact": "minor",
+            "priceImpact": -0.05,
+            "duration": 3,
+            "headline": "Investors Worried About Tech Companies",
+            "explanation": "When investors get nervous about a group of companies, they might sell even good companies in that group.",
+            "learningLink": "What is a sector?"
+        },
+        {
+            "id": "market_rally",
+            "type": "market_rally",
+            "affectedTickers": "all",
+            "impact": "moderate",
+            "priceImpact": 0.06,
+            "duration": 3,
+            "headline": "Stock Market Having a Great Day!",
+            "explanation": "Sometimes good news makes everyone feel confident and almost all stocks go up together. This is called a rally!",
+            "learningLink": "What is a market rally?"
+        },
+        {
+            "id": "celebrity_tweet",
+            "type": "celebrity_tweet",
+            "affectedTickers": [],
+            "impact": "moderate",
+            "priceImpact": 0.15,
+            "duration": 1,
+            "headline": "Famous Person Loves {ticker}!",
+            "explanation": "When a famous person says they like a company, some people rush to buy the stock. But be careful - this effect often doesn't last!",
+            "learningLink": "Should you buy based on what celebrities say?"
+        },
+        {
+            "id": "dividend_announced",
+            "type": "dividend_announced",
+            "affectedTickers": [
+                "RKB",
+                "FRZ",
+                "PET",
+                "SLR",
+                "WND"
+            ],
+            "impact": "minor",
+            "priceImpact": 0.03,
+            "duration": 1,
+            "headline": "{ticker} Announces Dividend Payment!",
+            "explanation": "A dividend is when a company shares some of its profits with shareholders. It's like getting a thank-you gift for owning the stock!",
+            "learningLink": "What is a dividend?"
+        },
+        {
+            "id": "partnership",
+            "type": "partnership",
+            "affectedTickers": [],
+            "impact": "moderate",
+            "priceImpact": 0.07,
+            "duration": 2,
+            "headline": "{ticker} Partners With Major Company!",
+            "explanation": "When two companies work together, both might make more money. Investors like this news!",
+            "learningLink": "What are business partnerships?"
+        },
+        {
+            "id": "supply_chain",
+            "type": "supply_chain",
+            "affectedTickers": [],
+            "impact": "minor",
+            "priceImpact": -0.06,
+            "duration": 2,
+            "headline": "{ticker} Having Trouble Getting Materials",
+            "explanation": "Sometimes companies can't get the parts they need to make their products. This can hurt their business temporarily.",
+            "learningLink": "What is a supply chain?"
+        }
+    ]
+}

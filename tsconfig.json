@@ -1,0 +1,53 @@
+{
+    "compilerOptions": {
+        "target": "ES2022",
+        "lib": [
+            "ES2022",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "jsx": "react-jsx",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "strict": true,
+        "noEmit": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        "useDefineForClassFields": true,
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true,
+        "baseUrl": ".",
+        "paths": {
+            "@core/*": [
+                "src/core/*"
+            ],
+            "@app/*": [
+                "src/app/*"
+            ],
+            "@ui/*": [
+                "src/ui/*"
+            ],
+            "@infra/*": [
+                "src/infra/*"
+            ],
+            "@data/*": [
+                "data/*"
+            ]
+        }
+    },
+    "include": [
+        "src/**/*",
+        "data/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}

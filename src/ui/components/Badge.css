@@ -1,0 +1,87 @@
+/* Badge Component Styles */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+}
+
+/* Sizes */
+.badge--sm {
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--font-size-xs);
+}
+
+.badge--md {
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--font-size-sm);
+}
+
+.badge--lg {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--font-size-base);
+}
+
+/* Variants */
+.badge--default {
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+}
+
+.badge--success {
+    background: linear-gradient(135deg, var(--color-success) 0%, var(--color-success-dark) 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+}
+
+.badge--warning {
+    background: linear-gradient(135deg, var(--color-warning) 0%, #d97706 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+}
+
+.badge--danger {
+    background: linear-gradient(135deg, var(--color-danger) 0%, var(--color-danger-dark) 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.badge--info {
+    background: linear-gradient(135deg, var(--color-info) 0%, #0891b2 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
+}
+
+/* Achievement badges */
+.badge--gold {
+    background: linear-gradient(135deg, #ffd700 0%, #ffb800 50%, #ffa500 100%);
+    color: #422006;
+    box-shadow: 0 2px 12px rgba(255, 215, 0, 0.4);
+}
+
+.badge--silver {
+    background: linear-gradient(135deg, #e8e8e8 0%, #c0c0c0 50%, #a8a8a8 100%);
+    color: #1f2937;
+    box-shadow: 0 2px 12px rgba(192, 192, 192, 0.4);
+}
+
+.badge--bronze {
+    background: linear-gradient(135deg, #cd7f32 0%, #b87333 50%, #a0522d 100%);
+    color: white;
+    box-shadow: 0 2px 12px rgba(205, 127, 50, 0.4);
+}
+
+/* Icon styling */
+.badge__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.badge__icon svg {
+    width: 1em;
+    height: 1em;
+}
