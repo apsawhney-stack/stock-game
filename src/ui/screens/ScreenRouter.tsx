@@ -5,6 +5,7 @@ import { DashboardScreen } from './DashboardScreen';
 import { TradeScreen } from './TradeScreen';
 import { ResultsScreen } from './ResultsScreen';
 import { StatsScreen } from './StatsScreen';
+import { BadgesScreen } from './BadgesScreen';
 import { useGameStore, useGameActions } from '../../app/store';
 import './ScreenRouter.css';
 
@@ -25,21 +26,6 @@ const screenVariants = {
     exit: { opacity: 0, x: -50 },
 };
 
-// Placeholder screens for future features
-function PlaceholderScreen({ name }: { name: string }) {
-    const { navigate } = useGameActions();
-
-    return (
-        <div className="placeholder-screen">
-            <h2>🚧 {name}</h2>
-            <p>Coming soon!</p>
-            <button onClick={() => navigate('home')} className="placeholder-screen__back">
-                ← Back to Home
-            </button>
-        </div>
-    );
-}
-
 // Screen router component - now synced with Zustand store
 export function ScreenRouter() {
     const currentScreen = useGameStore((state) => state.ui.currentScreen);
@@ -59,7 +45,7 @@ export function ScreenRouter() {
             case 'stats':
                 return <StatsScreen />;
             case 'badges':
-                return <PlaceholderScreen name="Badges" />;
+                return <BadgesScreen />;
             default:
                 return <HomeScreen />;
         }

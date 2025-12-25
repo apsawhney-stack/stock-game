@@ -1,0 +1,187 @@
+/**
+ * BadgesScreen Styles
+ */
+
+.badges-screen {
+    min-height: 100vh;
+    background: var(--bg-primary);
+    display: flex;
+    flex-direction: column;
+}
+
+.badges-screen__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--bg-tertiary);
+}
+
+.badges-screen__title {
+    font-family: var(--font-family-display);
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.badges-screen__content {
+    flex: 1;
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Overview Card */
+.badges-screen__overview .overview__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+
+.overview__icon {
+    color: var(--color-warning);
+}
+
+.overview__text {
+    display: flex;
+    flex-direction: column;
+}
+
+.overview__title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.overview__subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+/* Category Sections */
+.badges-screen__category {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.category__title {
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+}
+
+.category__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-3);
+}
+
+/* Badge Cards */
+.badge-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    transition: all var(--transition-fast);
+}
+
+.badge-card--locked {
+    opacity: 0.6;
+}
+
+.badge-card--unlocked {
+    border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.badge-card:hover {
+    transform: translateY(-2px);
+}
+
+.badge-card__icon-wrapper {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.badge-card--unlocked .badge-card__icon-wrapper {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2));
+}
+
+.badge-card__icon {
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+}
+
+.badge-card--unlocked .badge-card__icon {
+    color: var(--text-primary);
+}
+
+.badge-card__check {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-success);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.badge-card__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    min-width: 0;
+}
+
+.badge-card__name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.badge-card__description {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.badge-card__progress {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-1);
+    min-width: 80px;
+}
+
+.badge-card__progress-text {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .category__grid {
+        grid-template-columns: 1fr;
+    }
+}

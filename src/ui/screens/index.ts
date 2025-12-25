@@ -8,3 +8,4 @@ export { DashboardScreen } from './DashboardScreen';
 export { TradeScreen } from './TradeScreen';
 export { ResultsScreen } from './ResultsScreen';
 export { StatsScreen } from './StatsScreen';
+export { BadgesScreen } from './BadgesScreen';
