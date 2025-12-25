@@ -6,10 +6,14 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { subscribeWithSelector } from 'zustand/middleware';
-import type { GameStore, SessionState, MarketState, UIState, Notification } from './types';
+import type { GameStore, SessionState, MarketState, UIState, Notification, EventState } from './types';
 import type { PortfolioState, Order, OrderRequest } from '../../core/types';
 import type { ScreenName } from '../../ui/screens/ScreenRouter';
 import { createInitialPortfolio } from '../../core/types/portfolio';
+import type { ScoringState, XPEarnedEvent } from '../../core/scoring/types';
+import { createInitialScoringState, createInitialAchievementState } from '../../core/scoring/types';
+import type { AIPortfolioState, AIDecision } from '../../core/ai/types';
+import { createInitialAIPortfolio } from '../../core/ai/types';
 
 // Initial states
 const initialSession: SessionState = {
@@ -27,6 +31,7 @@ const initialSession: SessionState = {
 const initialMarket: MarketState = {
     prices: {},
     previousPrices: {},
+    priceHistory: {},
     turn: 0,
 };
 
@@ -34,6 +39,12 @@ const initialUI: UIState = {
     currentScreen: 'home',
     notifications: [],
     isLoading: false,
+};
+
+const initialEvents: EventState = {
+    activeEvents: [],
+    eventHistory: [],
+    readEventIds: [],
 };
 
 const initialPortfolio: PortfolioState = createInitialPortfolio(10000);
@@ -50,6 +61,10 @@ export const useGameStore = create<GameStore>()(
             // Initial state
             session: initialSession,
             market: initialMarket,
+            events: initialEvents,
+            scoring: createInitialScoringState(),
+            achievements: createInitialAchievementState(),
+            ai: createInitialAIPortfolio('nancy', 10000),
             portfolio: initialPortfolio,
             pendingOrders: [],
             orderHistory: [],
@@ -216,6 +231,14 @@ export const useGameStore = create<GameStore>()(
                     set((state) => {
                         state.market.previousPrices = { ...state.market.prices };
                         state.market.prices = prices;
+
+                        // Track price history for charts
+                        for (const [ticker, price] of Object.entries(prices)) {
+                            if (!state.market.priceHistory[ticker]) {
+                                state.market.priceHistory[ticker] = [];
+                            }
+                            state.market.priceHistory[ticker].push(price);
+                        }
                     });
                 },
 
@@ -295,6 +318,86 @@ export const useGameStore = create<GameStore>()(
                 setLoading: (loading: boolean) => {
                     set((state) => {
                         state.ui.isLoading = loading;
+                    });
+                },
+
+                // === Event Actions ===
+                triggerEvents: (events: import('../../core/events/types').TriggeredEvent[]) => {
+                    set((state) => {
+                        state.events.activeEvents.push(...events as any);
+                    });
+                },
+
+                markEventRead: (eventId: string) => {
+                    set((state) => {
+                        const event = state.events.activeEvents.find((e: any) => e.id === eventId);
+                        if (event) {
+                            (event as any).read = true;
+                        }
+                    });
+                },
+
+                clearEvents: () => {
+                    set((state) => {
+                        state.events.eventHistory.push(...state.events.activeEvents as any);
+                        state.events.activeEvents = [];
+                    });
+                },
+
+                // === Scoring Actions ===
+                awardXP: (event: XPEarnedEvent) => {
+                    set((state) => {
+                        state.scoring.sessionXP += event.amount;
+                        state.scoring.todayXP += event.amount;
+                        (state.scoring.xpHistory as XPEarnedEvent[]).push(event);
+                    });
+                },
+
+                updateScoringState: (updates: Partial<ScoringState>) => {
+                    set((state) => {
+                        Object.assign(state.scoring, updates);
+                    });
+                },
+
+                updateAchievementProgress: (type: string, value: number) => {
+                    set((state) => {
+                        (state.achievements.progress as any)[type] = value;
+                    });
+                },
+
+                unlockAchievement: (achievementId: string) => {
+                    set((state) => {
+                        const record = {
+                            achievementId,
+                            unlockedAt: Date.now(),
+                        };
+                        (state.achievements.unlocked as any[]).push(record);
+                    });
+                },
+
+                clearRecentAchievements: () => {
+                    set((state) => {
+                        state.achievements.recentlyUnlocked = [];
+                    });
+                },
+
+                // === AI Actions ===
+                updateAIPortfolio: (updates: Partial<AIPortfolioState>) => {
+                    set((state) => {
+                        Object.assign(state.ai, updates);
+                    });
+                },
+
+                recordAIDecision: (decision: AIDecision) => {
+                    set((state) => {
+                        (state.ai.decisions as AIDecision[]).push(decision);
+                        state.ai.lastDecision = decision;
+                    });
+                },
+
+                resetAI: () => {
+                    set((state) => {
+                        Object.assign(state.ai, createInitialAIPortfolio('nancy', state.session.startingCash));
                     });
                 },
             },

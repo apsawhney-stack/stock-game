@@ -1,0 +1,111 @@
+/**
+ * XPDisplay Component Styles
+ */
+
+.xp-display {
+    font-family: var(--font-display);
+}
+
+/* Compact variant - for header display */
+.xp-display--compact {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 165, 0, 0.1));
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-radius: 2rem;
+    color: var(--color-gold, #ffd700);
+}
+
+.xp-display--compact .xp-display__icon {
+    color: var(--color-gold, #ffd700);
+}
+
+.xp-display--compact .xp-display__value {
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.xp-display--compact .xp-display__label {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+/* Full variant - for dashboard/results */
+.xp-display--full {
+    padding: 1rem;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.05));
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 0.75rem;
+}
+
+.xp-display__header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-gold, #ffd700);
+}
+
+.xp-display__title {
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.xp-display__session {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.xp-display__session-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-gold, #ffd700);
+    line-height: 1;
+}
+
+.xp-display__session-label {
+    font-size: 0.75rem;
+    color: var(--color-text-muted, #a0aec0);
+}
+
+.xp-display__daily {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 0.75rem;
+}
+
+.xp-display__daily-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--color-text-muted, #a0aec0);
+    margin-bottom: 0.375rem;
+}
+
+.xp-display__daily-header .cap-reached {
+    color: var(--color-gold, #ffd700);
+    font-weight: 600;
+}
+
+.xp-display__progress-bar {
+    height: 0.375rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.xp-display__progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-gold, #ffd700), var(--color-warning, #f6ad55));
+    border-radius: 0.25rem;
+}
+
+.xp-display__cap-message {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--color-gold, #ffd700);
+    text-align: center;
+}

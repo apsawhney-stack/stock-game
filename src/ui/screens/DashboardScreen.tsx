@@ -12,28 +12,37 @@ import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
 import { ProgressBar } from '../components/ProgressBar';
+import { NewsCard } from '../components/NewsCard';
+import { XPDisplay } from '../components/XPDisplay';
+import { AIOpponent } from '../components/AIOpponent';
 import { useGameStore, useGameActions } from '../../app/store';
 import { selectTotalValue, selectReturnPercent, selectHoldings, selectTurnInfo } from '../../app/store/selectors';
 import { useMarketEngine, GAME_STOCKS } from '../../app/hooks/useMarketEngine';
+import { useEventEngine } from '../../app/hooks/useEventEngine';
+import { useScoringEngine } from '../../app/hooks/useScoringEngine';
+import { useAIEngine } from '../../app/hooks/useAIEngine';
 import './DashboardScreen.css';
-
-
-
-// Mock news
-const mockNews = [
-    { id: '1', headline: '🍔 RocketBurger launches new menu!', impact: 'positive' as const },
-    { id: '2', headline: '☁️ CloudKids faces server issues', impact: 'negative' as const },
-];
 
 export function DashboardScreen() {
     const state = useGameStore();
-    const { advanceTurn, navigate } = useGameActions();
+    const { advanceTurn, navigate, markEventRead } = useGameActions();
     const portfolio = state.portfolio;
     const prices = state.market.prices;
     const previousPrices = state.market.previousPrices;
     const pendingOrders = state.pendingOrders;
+    const activeEvents = state.events.activeEvents;
+    const readEventIds = state.events.readEventIds;
 
     const { tickMarket } = useMarketEngine();
+
+    // Initialize event engine to process events on turn changes
+    useEventEngine();
+
+    // Initialize scoring engine to track XP and achievements
+    useScoringEngine();
+
+    // Initialize AI engine to process AI turns
+    useAIEngine();
 
     const totalValue = selectTotalValue(state);
     const returnPercent = selectReturnPercent(state);
@@ -78,6 +87,7 @@ export function DashboardScreen() {
                     initial={{ opacity: 0, x: 10 }}
                     animate={{ opacity: 1, x: 0 }}
                 >
+                    <XPDisplay variant="compact" showDailyCap={false} />
                     <ProgressBar
                         value={turnInfo.current}
                         max={turnInfo.max}
@@ -88,6 +98,11 @@ export function DashboardScreen() {
                     />
                 </motion.div>
             </header>
+
+            {/* AI Opponent - shown in top right */}
+            <div className="dashboard__ai-container">
+                <AIOpponent />
+            </div>
 
             {/* Main grid */}
             <main className="dashboard__main">
@@ -206,11 +221,20 @@ export function DashboardScreen() {
                         </div>
 
                         <div className="news-list">
-                            {mockNews.map((news) => (
-                                <div key={news.id} className={`news-card news-card--${news.impact}`}>
-                                    <p className="news-card__headline">{news.headline}</p>
+                            {activeEvents.length > 0 ? (
+                                activeEvents.map((event) => (
+                                    <NewsCard
+                                        key={event.id}
+                                        event={event}
+                                        isRead={readEventIds.includes(event.id)}
+                                        onRead={() => markEventRead(event.id)}
+                                    />
+                                ))
+                            ) : (
+                                <div className="news-empty">
+                                    <p>📰 No news today. Markets are quiet.</p>
                                 </div>
-                            ))}
+                            )}
                         </div>
                     </Card>
                 </motion.section>

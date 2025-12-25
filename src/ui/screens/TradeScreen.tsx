@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, TrendingUp, TrendingDown } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
+import { PriceChart } from '../components/PriceChart';
 import { useGameStore, useGameActions } from '../../app/store';
 import { GAME_STOCKS } from '../../app/hooks/useMarketEngine';
 import type { Asset } from '../../core/types';
@@ -16,6 +17,7 @@ export function TradeScreen() {
 
     const prices = useGameStore((state) => state.market.prices);
     const previousPrices = useGameStore((state) => state.market.previousPrices);
+    const priceHistory = useGameStore((state) => state.market.priceHistory);
     const portfolio = useGameStore((state) => state.portfolio);
     const { navigate, submitOrder } = useGameActions();
 
@@ -156,6 +158,18 @@ export function TradeScreen() {
                                 {orderSide === 'buy' ? 'Buy' : 'Sell'} {selectedStock.ticker}
                             </h2>
                             <p className="order-form__stock-name">{selectedStock.name}</p>
+
+                            {/* Price Chart */}
+                            {priceHistory[selectedStock.ticker] && priceHistory[selectedStock.ticker].length > 1 && (
+                                <div className="order-form__chart">
+                                    <PriceChart
+                                        prices={priceHistory[selectedStock.ticker]}
+                                        variant="standard"
+                                        showTrend={true}
+                                        showLabels={true}
+                                    />
+                                </div>
+                            )}
 
                             {/* Buy/Sell toggle */}
                             <div className="order-form__side-toggle">

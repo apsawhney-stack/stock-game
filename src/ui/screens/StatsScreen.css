@@ -1,0 +1,219 @@
+/**
+ * StatsScreen Styles
+ */
+
+.stats-screen {
+    min-height: 100vh;
+    background: var(--bg-primary);
+    display: flex;
+    flex-direction: column;
+}
+
+.stats-screen__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--bg-tertiary);
+}
+
+.stats-screen__title {
+    font-family: var(--font-family-display);
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.stats-screen__content {
+    flex: 1;
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Level Card */
+.stats-screen__level-card {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(168, 85, 247, 0.05));
+}
+
+.level-card__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+
+.level-card__avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.level-card__avatar-emoji {
+    font-size: 32px;
+}
+
+.level-card__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.level-card__label {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+.level-card__level {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Stats Grid */
+.stats-screen__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+}
+
+.stat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    text-align: center;
+}
+
+.stat-card__icon {
+    color: var(--color-primary);
+}
+
+.stat-card__value {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.stat-card__label {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Section title */
+.stats-screen__section-title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 var(--space-4);
+}
+
+/* Achievement Grid */
+.achievement-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.achievement-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    transition: all var(--transition-fast);
+}
+
+.achievement-item--unlocked {
+    border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.achievement-item--locked {
+    opacity: 0.5;
+}
+
+.achievement-item__icon {
+    font-size: 28px;
+    width: 40px;
+    text-align: center;
+}
+
+.achievement-item__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.achievement-item__name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.achievement-item__description {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+/* Mission List */
+.mission-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.mission-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+}
+
+.mission-item--locked {
+    opacity: 0.5;
+}
+
+.mission-item__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.mission-item__name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.mission-item__goal {
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+.mission-item__unlocked {
+    color: var(--color-success);
+    font-size: 1.25rem;
+}
+
+.mission-item__locked {
+    font-size: 1.25rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .stats-screen__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

@@ -16,3 +16,13 @@ export type { ProgressBarProps } from './ProgressBar';
 
 export { PriceDisplay } from './PriceDisplay';
 export type { PriceDisplayProps } from './PriceDisplay';
+
+export { NewsCard } from './NewsCard';
+
+export { XPDisplay } from './XPDisplay';
+
+export { AchievementPopup } from './AchievementPopup';
+
+export { AIOpponent } from './AIOpponent';
+
+export { PriceChart } from './PriceChart';

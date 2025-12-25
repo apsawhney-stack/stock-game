@@ -1,128 +1,148 @@
 {
-    "version": "1.0",
     "events": [
         {
-            "id": "earnings_beat_general",
-            "type": "earnings_beat",
-            "affectedTickers": [],
-            "impact": "moderate",
-            "priceImpact": 0.08,
-            "duration": 2,
-            "headline": "{ticker} Reports Amazing Earnings!",
-            "explanation": "When a company makes more money than people expected, investors get excited and want to buy more shares.",
-            "learningLink": "What are earnings?"
+            "id": "earnings-burg-beat",
+            "category": "earnings",
+            "headline": "RocketBurger beats earnings!",
+            "description": "RocketBurger reported better-than-expected profits this quarter.",
+            "explanation": "When a company makes more money than people expected, investors get excited and buy more stock, pushing the price UP!",
+            "impact": {
+                "priceChange": 0.12,
+                "scope": [
+                    "BURG"
+                ]
+            },
+            "learningTip": "Earnings reports come out every 3 months. They show how much money a company made.",
+            "iconEmoji": "📈"
         },
         {
-            "id": "earnings_miss_general",
-            "type": "earnings_miss",
-            "affectedTickers": [],
-            "impact": "moderate",
-            "priceImpact": -0.10,
-            "duration": 2,
-            "headline": "{ticker} Disappoints With Low Earnings",
-            "explanation": "When a company makes less money than expected, some investors sell their shares because they're worried.",
-            "learningLink": "What are earnings?"
+            "id": "earnings-hlth-miss",
+            "category": "earnings",
+            "headline": "VitaJuice misses expectations",
+            "description": "VitaJuice's new healthy snack didn't sell as hoped.",
+            "explanation": "When a company's results are worse than expected, investors may sell their stock, pushing the price DOWN.",
+            "impact": {
+                "priceChange": -0.10,
+                "scope": [
+                    "HLTH"
+                ]
+            },
+            "learningTip": "Even healthy food companies can have bad quarters. That's why we don't put all eggs in one basket!",
+            "iconEmoji": "📉"
         },
         {
-            "id": "product_launch_tech",
-            "type": "product_launch",
-            "affectedTickers": [
-                "ZAP",
-                "GMR",
-                "SKY",
-                "CLD"
-            ],
-            "impact": "major",
-            "priceImpact": 0.12,
-            "duration": 3,
-            "headline": "{ticker} Launches Exciting New Product!",
-            "explanation": "When a company releases a cool new product that everyone wants, more people want to own the company's stock.",
-            "learningLink": "How do products affect stock prices?"
+            "id": "product-burg-new",
+            "category": "product",
+            "headline": "RocketBurger announces new menu!",
+            "description": "Kids are lining up for RocketBurger's new Space Fries!",
+            "explanation": "New products that customers love can boost a company's sales and stock price!",
+            "impact": {
+                "priceChange": 0.08,
+                "scope": [
+                    "BURG"
+                ]
+            },
+            "learningTip": "Companies try to innovate to attract more customers.",
+            "iconEmoji": "🍔"
         },
         {
-            "id": "sector_trend_tech_up",
-            "type": "sector_trend_up",
-            "affectedTickers": "sector",
-            "affectedSector": "tech",
-            "impact": "minor",
-            "priceImpact": 0.05,
-            "duration": 4,
-            "headline": "Tech Stocks Are Hot Right Now!",
-            "explanation": "Sometimes investors get really excited about one type of company, like technology, and all those stocks go up together.",
-            "learningLink": "What is a sector?"
+            "id": "sector-health-trend",
+            "category": "sector",
+            "headline": "Fitness craze sweeping the nation!",
+            "description": "Everyone's focused on health and exercise this summer.",
+            "explanation": "When lots of people want healthy products, all health companies benefit!",
+            "impact": {
+                "priceChange": 0.10,
+                "scope": "sector",
+                "sector": "health"
+            },
+            "learningTip": "Trends in society affect which sectors do well.",
+            "iconEmoji": "💪"
         },
         {
-            "id": "sector_trend_tech_down",
-            "type": "sector_trend_down",
-            "affectedTickers": "sector",
-            "affectedSector": "tech",
-            "impact": "minor",
-            "priceImpact": -0.05,
-            "duration": 3,
-            "headline": "Investors Worried About Tech Companies",
-            "explanation": "When investors get nervous about a group of companies, they might sell even good companies in that group.",
-            "learningLink": "What is a sector?"
+            "id": "sector-tech-summer",
+            "category": "sector",
+            "headline": "Kids on summer break = more screen time!",
+            "description": "Tech companies see higher usage during summer vacation.",
+            "explanation": "When kids have more free time, they use more phones and games, helping tech companies!",
+            "impact": {
+                "priceChange": 0.07,
+                "scope": "sector",
+                "sector": "tech"
+            },
+            "learningTip": "Seasonal patterns can affect stock prices predictably.",
+            "iconEmoji": "☀️"
         },
         {
-            "id": "market_rally",
-            "type": "market_rally",
-            "affectedTickers": "all",
-            "impact": "moderate",
-            "priceImpact": 0.06,
-            "duration": 3,
-            "headline": "Stock Market Having a Great Day!",
-            "explanation": "Sometimes good news makes everyone feel confident and almost all stocks go up together. This is called a rally!",
-            "learningLink": "What is a market rally?"
+            "id": "scandal-burg-recall",
+            "category": "scandal",
+            "headline": "RocketBurger recalls burgers!",
+            "description": "Safety issue found with some RocketBurger products.",
+            "explanation": "Bad news about a company's products makes investors nervous and they may sell.",
+            "impact": {
+                "priceChange": -0.12,
+                "scope": [
+                    "BURG"
+                ]
+            },
+            "learningTip": "Companies that fix problems quickly often recover over time.",
+            "iconEmoji": "⚠️"
         },
         {
-            "id": "celebrity_tweet",
-            "type": "celebrity_tweet",
-            "affectedTickers": [],
-            "impact": "moderate",
-            "priceImpact": 0.15,
-            "duration": 1,
-            "headline": "Famous Person Loves {ticker}!",
-            "explanation": "When a famous person says they like a company, some people rush to buy the stock. But be careful - this effect often doesn't last!",
-            "learningLink": "Should you buy based on what celebrities say?"
+            "id": "regulation-green",
+            "category": "regulation",
+            "headline": "New law promotes clean energy!",
+            "description": "Government announces incentives for solar panels.",
+            "explanation": "Government policies can help or hurt companies. This law helps green energy!",
+            "impact": {
+                "priceChange": 0.15,
+                "scope": [
+                    "ENGY"
+                ]
+            },
+            "learningTip": "Following the news helps you understand which companies might be affected by new laws.",
+            "iconEmoji": "🌱"
         },
         {
-            "id": "dividend_announced",
-            "type": "dividend_announced",
-            "affectedTickers": [
-                "RKB",
-                "FRZ",
-                "PET",
-                "SLR",
-                "WND"
-            ],
-            "impact": "minor",
-            "priceImpact": 0.03,
-            "duration": 1,
-            "headline": "{ticker} Announces Dividend Payment!",
-            "explanation": "A dividend is when a company shares some of its profits with shareholders. It's like getting a thank-you gift for owning the stock!",
-            "learningLink": "What is a dividend?"
+            "id": "market-jitters",
+            "category": "market",
+            "headline": "Market jitters: Investors nervous",
+            "description": "Uncertainty about the economy has everyone worried today.",
+            "explanation": "Sometimes the whole market goes down because everyone is nervous at once. This is normal!",
+            "impact": {
+                "priceChange": -0.05,
+                "scope": "all"
+            },
+            "learningTip": "Market-wide drops happen sometimes. Patient investors often wait for recovery.",
+            "iconEmoji": "😰"
         },
         {
-            "id": "partnership",
-            "type": "partnership",
-            "affectedTickers": [],
-            "impact": "moderate",
-            "priceImpact": 0.07,
-            "duration": 2,
-            "headline": "{ticker} Partners With Major Company!",
-            "explanation": "When two companies work together, both might make more money. Investors like this news!",
-            "learningLink": "What are business partnerships?"
+            "id": "market-rally",
+            "category": "market",
+            "headline": "Great economic news: Jobs are up!",
+            "description": "The economy is doing great and everyone's feeling optimistic!",
+            "explanation": "Good economic news makes everyone more confident, and the whole market goes up!",
+            "impact": {
+                "priceChange": 0.05,
+                "scope": "all"
+            },
+            "learningTip": "A rising tide lifts all boats - when the economy is strong, most stocks benefit.",
+            "iconEmoji": "🎉"
         },
         {
-            "id": "supply_chain",
-            "type": "supply_chain",
-            "affectedTickers": [],
-            "impact": "minor",
-            "priceImpact": -0.06,
-            "duration": 2,
-            "headline": "{ticker} Having Trouble Getting Materials",
-            "explanation": "Sometimes companies can't get the parts they need to make their products. This can hurt their business temporarily.",
-            "learningLink": "What is a supply chain?"
+            "id": "product-tech-release",
+            "category": "product",
+            "headline": "CloudKids releases hit game!",
+            "description": "The new CloudKids adventure game is #1 on all platforms!",
+            "explanation": "A hit product means more sales and more profits for the company!",
+            "impact": {
+                "priceChange": 0.18,
+                "scope": [
+                    "TECH"
+                ]
+            },
+            "learningTip": "Pay attention to product releases - they can move stock prices significantly.",
+            "iconEmoji": "🎮"
         }
     ]
 }

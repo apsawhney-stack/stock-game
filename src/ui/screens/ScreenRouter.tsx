@@ -4,6 +4,7 @@ import { MissionBriefingScreen } from './MissionBriefingScreen';
 import { DashboardScreen } from './DashboardScreen';
 import { TradeScreen } from './TradeScreen';
 import { ResultsScreen } from './ResultsScreen';
+import { StatsScreen } from './StatsScreen';
 import { useGameStore, useGameActions } from '../../app/store';
 import './ScreenRouter.css';
 
@@ -24,7 +25,7 @@ const screenVariants = {
     exit: { opacity: 0, x: -50 },
 };
 
-// Placeholder screens for Sprint 3+
+// Placeholder screens for future features
 function PlaceholderScreen({ name }: { name: string }) {
     const { navigate } = useGameActions();
 
@@ -56,7 +57,7 @@ export function ScreenRouter() {
             case 'results':
                 return <ResultsScreen />;
             case 'stats':
-                return <PlaceholderScreen name="My Stats" />;
+                return <StatsScreen />;
             case 'badges':
                 return <PlaceholderScreen name="Badges" />;
             default:

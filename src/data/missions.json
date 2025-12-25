@@ -1,0 +1,81 @@
+{
+    "missions": [
+        {
+            "id": "first-trade",
+            "level": 1,
+            "name": "First Trade",
+            "subtitle": "Your investing journey begins!",
+            "goal": "Make a 2% profit by buying and selling stocks!",
+            "description": "Learn the basics of buying low and selling high.",
+            "startingCash": 10000,
+            "maxTurns": 10,
+            "targetReturn": 0.02,
+            "difficulty": "beginner",
+            "unlocked": true,
+            "tips": [
+                "Start simple! Pick one stock you like.",
+                "Watch how prices move up and down.",
+                "Try to buy low and sell high!"
+            ],
+            "rewards": {
+                "xpBonus": 100,
+                "achievement": "first_trade"
+            }
+        },
+        {
+            "id": "steady-growth",
+            "level": 2,
+            "name": "Steady Growth",
+            "subtitle": "Build a balanced portfolio!",
+            "goal": "Earn 5% profit with at least 2 different stocks!",
+            "description": "Learn about diversification by owning multiple stocks.",
+            "startingCash": 12000,
+            "maxTurns": 12,
+            "targetReturn": 0.05,
+            "difficulty": "intermediate",
+            "unlocked": false,
+            "tips": [
+                "Don't put all your eggs in one basket!",
+                "Try owning 2-3 different stocks.",
+                "Balance risky stocks with safer ones."
+            ],
+            "rewards": {
+                "xpBonus": 200,
+                "achievement": "diversified"
+            },
+            "requirements": {
+                "completedMissions": [
+                    "first-trade"
+                ]
+            }
+        },
+        {
+            "id": "market-news",
+            "level": 3,
+            "name": "Market News",
+            "subtitle": "React to breaking news!",
+            "goal": "Earn 8% profit by reading and reacting to news!",
+            "description": "Learn how news events affect stock prices.",
+            "startingCash": 15000,
+            "maxTurns": 15,
+            "targetReturn": 0.08,
+            "difficulty": "advanced",
+            "unlocked": false,
+            "tips": [
+                "Read every news story carefully!",
+                "Good news usually helps, bad news hurts.",
+                "Act fast when you see important news!"
+            ],
+            "rewards": {
+                "xpBonus": 300,
+                "achievement": "news_trader"
+            },
+            "requirements": {
+                "completedMissions": [
+                    "first-trade",
+                    "steady-growth"
+                ]
+            }
+        }
+    ]
+}

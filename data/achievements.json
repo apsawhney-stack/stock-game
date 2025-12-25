@@ -1,0 +1,160 @@
+{
+    "achievements": [
+        {
+            "id": "first-trade",
+            "name": "First Steps",
+            "description": "Complete your very first trade",
+            "category": "milestone",
+            "tier": "bronze",
+            "iconEmoji": "🎯",
+            "condition": {
+                "type": "count_trades",
+                "threshold": 1
+            },
+            "xpReward": 25
+        },
+        {
+            "id": "diversifier",
+            "name": "Diversifier",
+            "description": "Hold stocks in 3 different sectors at once",
+            "category": "strategy",
+            "tier": "bronze",
+            "iconEmoji": "🎨",
+            "condition": {
+                "type": "count_diversified_turns",
+                "threshold": 1
+            },
+            "xpReward": 50
+        },
+        {
+            "id": "diamond-hands",
+            "name": "Diamond Hands",
+            "description": "Hold through a 10% or greater price drop",
+            "category": "patience",
+            "tier": "silver",
+            "iconEmoji": "💎",
+            "condition": {
+                "type": "count_hold_through_dips",
+                "threshold": 1
+            },
+            "xpReward": 50
+        },
+        {
+            "id": "patient-trader",
+            "name": "Patient Trader",
+            "description": "Successfully execute a limit order",
+            "category": "trading",
+            "tier": "bronze",
+            "iconEmoji": "⏳",
+            "condition": {
+                "type": "count_limit_fills",
+                "threshold": 1
+            },
+            "xpReward": 30
+        },
+        {
+            "id": "market-beater",
+            "name": "Market Beater",
+            "description": "Beat the benchmark index in a mission",
+            "category": "strategy",
+            "tier": "gold",
+            "iconEmoji": "🏆",
+            "condition": {
+                "type": "count_benchmark_beats",
+                "threshold": 1
+            },
+            "xpReward": 75
+        },
+        {
+            "id": "informed-investor",
+            "name": "Informed Investor",
+            "description": "Read 10 news cards",
+            "category": "learning",
+            "tier": "bronze",
+            "iconEmoji": "📰",
+            "condition": {
+                "type": "count_news_read",
+                "threshold": 10
+            },
+            "xpReward": 40
+        },
+        {
+            "id": "news-junkie",
+            "name": "News Junkie",
+            "description": "Read 50 news cards",
+            "category": "learning",
+            "tier": "silver",
+            "iconEmoji": "📚",
+            "condition": {
+                "type": "count_news_read",
+                "threshold": 50
+            },
+            "xpReward": 100
+        },
+        {
+            "id": "no-take-backs",
+            "name": "No Take-Backs",
+            "description": "Complete 3 missions without using undo",
+            "category": "patience",
+            "tier": "silver",
+            "iconEmoji": "✨",
+            "condition": {
+                "type": "streak_no_undo",
+                "threshold": 3
+            },
+            "xpReward": 75
+        },
+        {
+            "id": "level-up",
+            "name": "Level Up",
+            "description": "Complete your first mission",
+            "category": "milestone",
+            "tier": "bronze",
+            "iconEmoji": "⭐",
+            "condition": {
+                "type": "count_levels_completed",
+                "threshold": 1
+            },
+            "xpReward": 50
+        },
+        {
+            "id": "rising-star",
+            "name": "Rising Star",
+            "description": "Complete 5 missions",
+            "category": "milestone",
+            "tier": "silver",
+            "iconEmoji": "🌟",
+            "condition": {
+                "type": "count_levels_completed",
+                "threshold": 5
+            },
+            "xpReward": 100
+        },
+        {
+            "id": "trading-pro",
+            "name": "Trading Pro",
+            "description": "Make 50 trades",
+            "category": "trading",
+            "tier": "silver",
+            "iconEmoji": "💹",
+            "condition": {
+                "type": "count_trades",
+                "threshold": 50
+            },
+            "xpReward": 75
+        },
+        {
+            "id": "xp-hunter",
+            "name": "XP Hunter",
+            "description": "Earn 1000 total XP",
+            "category": "milestone",
+            "tier": "gold",
+            "iconEmoji": "🎖️",
+            "condition": {
+                "type": "total_xp",
+                "threshold": 1000
+            },
+            "xpReward": 100
+        }
+    ]
+}

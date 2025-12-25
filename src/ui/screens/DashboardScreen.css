@@ -6,6 +6,8 @@
     display: flex;
     flex-direction: column;
     padding: var(--space-4);
+    padding-right: 180px;
+    /* Space for AI opponent card */
 }
 
 /* Header */
@@ -14,6 +16,14 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: var(--space-5);
+}
+
+/* AI Opponent positioned fixed in top right */
+.dashboard__ai-container {
+    position: fixed;
+    top: var(--space-4);
+    right: var(--space-4);
+    z-index: 100;
 }
 
 .dashboard__header-left {
@@ -28,6 +38,12 @@
     font-weight: 700;
     color: var(--text-primary);
     margin: 0;
+}
+
+.dashboard__header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
 }
 
 .dashboard__turn-progress {
@@ -297,6 +313,18 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+    .dashboard {
+        padding-right: var(--space-4);
+        /* Remove extra padding on mobile */
+    }
+
+    .dashboard__ai-container {
+        position: relative;
+        top: 0;
+        right: 0;
+        margin-bottom: var(--space-4);
+    }
+
     .dashboard__main {
         grid-template-columns: 1fr;
         grid-template-rows: auto;

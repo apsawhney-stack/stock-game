@@ -145,7 +145,13 @@
 .order-form__stock-name {
     font-size: var(--font-size-sm);
     color: var(--text-muted);
-    margin: var(--space-1) 0 var(--space-5);
+    margin: var(--space-1) 0 var(--space-4);
+}
+
+.order-form__chart {
+    margin-bottom: var(--space-4);
+    display: flex;
+    justify-content: center;
 }
 
 /* Buy/Sell toggle */

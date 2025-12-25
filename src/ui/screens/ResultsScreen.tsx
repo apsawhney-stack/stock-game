@@ -6,7 +6,8 @@ import {
     RotateCcw,
     Home,
     Target,
-    Sparkles
+    Sparkles,
+    Star
 } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
@@ -14,6 +15,7 @@ import { Badge } from '../components/Badge';
 import { useGameStore, useGameActions } from '../../app/store';
 import { selectTotalValue, selectReturnPercent, selectHoldings } from '../../app/store/selectors';
 import { useCountUp } from '../hooks';
+import { AI_PERSONAS } from '../../core/ai/types';
 import './ResultsScreen.css';
 
 export function ResultsScreen() {
@@ -26,6 +28,13 @@ export function ResultsScreen() {
     const orderHistory = state.orderHistory;
     const startingCash = state.session.startingCash;
     const targetReturn = state.session.targetReturn;
+    const sessionXP = state.scoring.sessionXP;
+    const aiState = state.ai;
+    const aiPersona = AI_PERSONAS[aiState.persona];
+
+    // AI comparison calculations
+    const aiReturn = ((aiState.totalValue - startingCash) / startingCash) * 100;
+    const playerBeatAI = returnPercent >= aiReturn;
 
     const profitLoss = totalValue - startingCash;
     const isWin = returnPercent >= (targetReturn * 100);
@@ -145,6 +154,63 @@ export function ResultsScreen() {
                     </Card>
                 </motion.div>
 
+                {/* AI Comparison */}
+                <motion.div variants={itemVariants}>
+                    <Card variant="glass" padding="md" className="results-screen__ai-comparison">
+                        <h3 className="ai-comparison__title">You vs {aiPersona.name}</h3>
+
+                        <div className="ai-comparison__bars">
+                            <div className="ai-comparison__bar-row">
+                                <span className="ai-comparison__label">You</span>
+                                <div className="ai-comparison__bar-container">
+                                    <motion.div
+                                        className={`ai-comparison__bar ai-comparison__bar--player ${returnPercent >= 0 ? 'positive' : 'negative'}`}
+                                        initial={{ width: 0 }}
+                                        animate={{ width: `${Math.min(100, Math.abs(returnPercent) * 5)}%` }}
+                                        transition={{ delay: 0.5, duration: 0.8 }}
+                                    />
+                                </div>
+                                <span className={`ai-comparison__percent ${returnPercent >= 0 ? 'positive' : 'negative'}`}>
+                                    {returnPercent >= 0 ? '+' : ''}{returnPercent.toFixed(1)}%
+                                </span>
+                            </div>
+
+                            <div className="ai-comparison__bar-row">
+                                <span className="ai-comparison__label">{aiPersona.emoji}</span>
+                                <div className="ai-comparison__bar-container">
+                                    <motion.div
+                                        className={`ai-comparison__bar ai-comparison__bar--ai ${aiReturn >= 0 ? 'positive' : 'negative'}`}
+                                        initial={{ width: 0 }}
+                                        animate={{ width: `${Math.min(100, Math.abs(aiReturn) * 5)}%` }}
+                                        transition={{ delay: 0.7, duration: 0.8 }}
+                                    />
+                                </div>
+                                <span className={`ai-comparison__percent ${aiReturn >= 0 ? 'positive' : 'negative'}`}>
+                                    {aiReturn >= 0 ? '+' : ''}{aiReturn.toFixed(1)}%
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className={`ai-comparison__verdict ${playerBeatAI ? 'win' : 'lose'}`}>
+                            {playerBeatAI
+                                ? `🎉 You beat ${aiPersona.name} by ${(returnPercent - aiReturn).toFixed(1)}%!`
+                                : `${aiPersona.name} won by ${(aiReturn - returnPercent).toFixed(1)}%`
+                            }
+                        </div>
+
+                        {/* AI Lesson */}
+                        <div className="ai-comparison__lesson">
+                            <span className="ai-comparison__lesson-icon">💡</span>
+                            <p>
+                                {playerBeatAI
+                                    ? `${aiPersona.name} often panic sells when prices drop. Staying calm helped you win!`
+                                    : `${aiPersona.name} got lucky this time. Keep learning and you'll beat them next time!`
+                                }
+                            </p>
+                        </div>
+                    </Card>
+                </motion.div>
+
                 {/* Holdings Summary */}
                 {holdings.length > 0 && (
                     <motion.div variants={itemVariants}>
@@ -211,6 +277,19 @@ export function ResultsScreen() {
                                         <p>Even the best investors have tough days. What matters is learning from each trade. Try again!</p>
                                     </>
                                 )}
+                            </div>
+                        </div>
+                    </Card>
+                </motion.div>
+
+                {/* XP Earned */}
+                <motion.div variants={itemVariants}>
+                    <Card variant="glass" padding="md" className="results-screen__xp">
+                        <div className="xp-earned">
+                            <Star className="xp-earned__icon" size={32} />
+                            <div className="xp-earned__content">
+                                <span className="xp-earned__label">XP Earned This Mission</span>
+                                <span className="xp-earned__value">+{sessionXP} XP</span>
                             </div>
                         </div>
                     </Card>

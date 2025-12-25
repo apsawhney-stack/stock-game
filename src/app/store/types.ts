@@ -6,6 +6,9 @@
 import type { PortfolioState } from '../../core/types';
 import type { Order, OrderRequest } from '../../core/types';
 import type { ScreenName } from '../../ui/screens/ScreenRouter';
+import type { TriggeredEvent } from '../../core/events/types';
+import type { ScoringState, AchievementState, XPEarnedEvent } from '../../core/scoring/types';
+import type { AIPortfolioState, AIDecision } from '../../core/ai/types';
 
 // Session state - tracks current game session
 export interface SessionState {
@@ -24,7 +27,15 @@ export interface SessionState {
 export interface MarketState {
     prices: Record<string, number>;
     previousPrices: Record<string, number>;
+    priceHistory: Record<string, number[]>;  // Ticker -> array of prices by turn
     turn: number;
+}
+
+// Event state - news and triggered events
+export interface EventState {
+    activeEvents: TriggeredEvent[];   // Current turn's events
+    eventHistory: TriggeredEvent[];   // All past events
+    readEventIds: string[];           // Events user has read
 }
 
 // UI state - screen and notifications
@@ -45,6 +56,10 @@ export interface UIState {
 export interface GameState {
     session: SessionState;
     market: MarketState;
+    events: EventState;
+    scoring: ScoringState;
+    achievements: AchievementState;
+    ai: AIPortfolioState;             // AI opponent state
     portfolio: PortfolioState;
     pendingOrders: Order[];
     orderHistory: Order[];
@@ -71,11 +86,28 @@ export interface GameActions {
     clearPendingOrders: () => void;
     addToHistory: (orders: Order[]) => void;
 
+    // Event actions
+    triggerEvents: (events: TriggeredEvent[]) => void;
+    markEventRead: (eventId: string) => void;
+    clearEvents: () => void;
+
     // UI actions
     navigate: (screen: ScreenName) => void;
     addNotification: (notification: Omit<Notification, 'id'>) => void;
     removeNotification: (id: string) => void;
     setLoading: (loading: boolean) => void;
+
+    // Scoring actions
+    awardXP: (event: XPEarnedEvent) => void;
+    updateScoringState: (state: Partial<ScoringState>) => void;
+    updateAchievementProgress: (type: string, value: number) => void;
+    unlockAchievement: (achievementId: string) => void;
+    clearRecentAchievements: () => void;
+
+    // AI actions
+    updateAIPortfolio: (portfolio: Partial<AIPortfolioState>) => void;
+    recordAIDecision: (decision: AIDecision) => void;
+    resetAI: () => void;
 }
 
 export type GameStore = GameState & { actions: GameActions };
