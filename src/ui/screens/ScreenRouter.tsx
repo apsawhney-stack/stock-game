@@ -3,6 +3,7 @@ import { HomeScreen } from './HomeScreen';
 import { MissionBriefingScreen } from './MissionBriefingScreen';
 import { DashboardScreen } from './DashboardScreen';
 import { TradeScreen } from './TradeScreen';
+import { ResultsScreen } from './ResultsScreen';
 import { useGameStore, useGameActions } from '../../app/store';
 import './ScreenRouter.css';
 
@@ -53,7 +54,7 @@ export function ScreenRouter() {
             case 'trade':
                 return <TradeScreen />;
             case 'results':
-                return <PlaceholderScreen name="Results" />;
+                return <ResultsScreen />;
             case 'stats':
                 return <PlaceholderScreen name="My Stats" />;
             case 'badges':

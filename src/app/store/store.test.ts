@@ -5,7 +5,7 @@
 
 import { describe, it, expect, beforeEach } from 'vitest';
 import { useGameStore } from './store';
-import { selectTotalValue, selectHoldings, selectReturnPercent, selectTurnInfo } from './selectors';
+import { selectTotalValue, selectHoldings, selectReturnPercent, selectTurnInfo, selectIsMissionGoalMet, selectTotalPnL } from './selectors';
 
 describe('Game Store', () => {
     beforeEach(() => {
@@ -358,6 +358,67 @@ describe('Selectors', () => {
             expect(turnInfo.current).toBe(2);
             expect(turnInfo.max).toBe(10);
             expect(turnInfo.remaining).toBe(8);
+        });
+    });
+
+    describe('selectIsMissionGoalMet', () => {
+        it('should return false when below target', () => {
+            const { startMission } = useGameStore.getState().actions;
+
+            startMission('mission-1');
+
+            const state = useGameStore.getState();
+            // Starting with $10,000, target is 2%, we have exactly $10,000
+            expect(selectIsMissionGoalMet(state)).toBe(false);
+        });
+
+        it('should return true when above target', () => {
+            const { startMission, updatePortfolio, updatePrices } = useGameStore.getState().actions;
+
+            startMission('mission-1');
+            updatePrices({ BURG: 30.00 });
+            updatePortfolio({
+                ...useGameStore.getState().portfolio,
+                cash: 5000,
+                lots: [{ ticker: 'BURG', shares: 200, costBasis: 25.00, acquiredAt: 0 }],
+            });
+
+            const state = useGameStore.getState();
+            // Total: 5000 + 200*30 = 11000, Return: 10%, Target: 2%
+            expect(selectIsMissionGoalMet(state)).toBe(true);
+        });
+
+        it('should return true when exactly at target', () => {
+            const { startMission, updatePortfolio, updatePrices } = useGameStore.getState().actions;
+
+            startMission('mission-1');
+            updatePrices({ BURG: 25.50 });
+            updatePortfolio({
+                ...useGameStore.getState().portfolio,
+                cash: 10000,
+                lots: [{ ticker: 'BURG', shares: 8, costBasis: 25.00, acquiredAt: 0 }],
+            });
+
+            const state = useGameStore.getState();
+            // Total: 10000 + 8*25.50 = 10204, Return: 2.04%, Target: 2%
+            expect(selectIsMissionGoalMet(state)).toBe(true);
+        });
+    });
+
+    describe('selectTotalPnL', () => {
+        it('should sum realized and unrealized PnL', () => {
+            const { updatePortfolio, updatePrices } = useGameStore.getState().actions;
+
+            updatePrices({ BURG: 30.00 });
+            updatePortfolio({
+                ...useGameStore.getState().portfolio,
+                realizedPnL: 50.00,
+                lots: [{ ticker: 'BURG', shares: 10, costBasis: 25.00, acquiredAt: 0 }],
+            });
+
+            const state = useGameStore.getState();
+            // Realized: 50, Unrealized: (30-25)*10 = 50, Total: 100
+            expect(selectTotalPnL(state)).toBe(100);
         });
     });
 });
