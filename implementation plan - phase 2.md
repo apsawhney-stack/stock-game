@@ -190,14 +190,14 @@ interface GameState {
 
 | ID | Task | Status | Acceptance Criteria | Test Command |
 |----|------|--------|---------------------|--------------|
-| 9.1 | Create `ResultsScreen` layout | [ ] | Shows all results data | Visual check |
-| 9.2 | Display final P&L | [ ] | Profit/loss prominent | Visual check |
-| 9.3 | Show performance vs goal | [ ] | Goal comparison clear | Visual check |
-| 9.4 | Add achievement badges | [ ] | Badges animate in | Visual check |
-| 9.5 | Add "Play Again" button | [ ] | Returns to home | Browser test |
-| 9.6 | Add celebration animation | [ ] | Confetti on success | Visual check |
-| 9.7 | Show trade history | [ ] | Order list with P&L | Visual check |
-| 9.8 | Add mascot feedback | [ ] | Encouraging message | Visual check |
+| 9.1 | Create `ResultsScreen` layout | [x] | Shows all results data | Visual check |
+| 9.2 | Display final P&L | [x] | Profit/loss prominent | Visual check |
+| 9.3 | Show performance vs goal | [x] | Goal comparison clear | Visual check |
+| 9.4 | Add achievement badges | [x] | Badges animate in | Visual check |
+| 9.5 | Add "Play Again" button | [x] | Returns to home | Browser test |
+| 9.6 | Add celebration animation | [x] | Confetti on success | Visual check |
+| 9.7 | Show trade history | [x] | Order list with P&L | Visual check |
+| 9.8 | Add mascot feedback | [x] | Encouraging message | Visual check |
 
 ---
 
@@ -231,7 +231,7 @@ interface GameState {
 | 12.2 | Store action tests | [x] | Actions modify state | `npm run test` |
 | 12.3 | Order fill tests | [x] | Buy/sell orders process | `npm run test` |
 | 12.4 | Selector tests | [x] | Calculations correct | `npm run test` |
-| 12.5 | Results screen tests | [ ] | Win/lose logic works | `npm run test` |
+| 12.5 | Results screen tests | [x] | Win/lose logic works | `npm run test` |
 
 ---
 
@@ -244,7 +244,7 @@ interface GameState {
 | Unit tests | `npm run test` | Components, store, controller |
 | Type checking | `npx tsc --noEmit` | Zero errors |
 
-**Current Status**: 151 tests passing
+**Current Status**: 155 tests passing
 
 ### Manual Testing Checklist
 

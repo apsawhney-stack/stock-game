@@ -13,6 +13,7 @@ import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
 import { useGameStore, useGameActions } from '../../app/store';
 import { selectTotalValue, selectReturnPercent, selectHoldings } from '../../app/store/selectors';
+import { useCountUp } from '../hooks';
 import './ResultsScreen.css';
 
 export function ResultsScreen() {
@@ -29,6 +30,11 @@ export function ResultsScreen() {
     const profitLoss = totalValue - startingCash;
     const isWin = returnPercent >= (targetReturn * 100);
     const targetPercent = targetReturn * 100;
+
+    // Animated numbers
+    const animatedTotal = useCountUp(totalValue, { duration: 1200, delay: 300 });
+    const animatedPL = useCountUp(Math.abs(profitLoss), { duration: 1000, delay: 600 });
+    const animatedReturn = useCountUp(Math.abs(returnPercent), { duration: 800, delay: 800 });
 
     const handlePlayAgain = () => {
         resetGame();
@@ -95,7 +101,7 @@ export function ResultsScreen() {
                             <div className="performance__stat">
                                 <span className="performance__label">Final Value</span>
                                 <span className="performance__value">
-                                    ${totalValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                    ${animatedTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                 </span>
                             </div>
 
@@ -112,14 +118,14 @@ export function ResultsScreen() {
                                 <span className="performance__label">Profit / Loss</span>
                                 <span className={`performance__value ${profitLoss >= 0 ? 'positive' : 'negative'}`}>
                                     {profitLoss >= 0 ? <TrendingUp size={24} /> : <TrendingDown size={24} />}
-                                    {profitLoss >= 0 ? '+' : ''}${profitLoss.toFixed(2)}
+                                    {profitLoss >= 0 ? '+' : '-'}${animatedPL.toFixed(2)}
                                 </span>
                             </div>
 
                             <div className="performance__stat performance__stat--highlight">
                                 <span className="performance__label">Return</span>
                                 <span className={`performance__value ${returnPercent >= 0 ? 'positive' : 'negative'}`}>
-                                    {returnPercent >= 0 ? '+' : ''}{returnPercent.toFixed(2)}%
+                                    {returnPercent >= 0 ? '+' : '-'}{animatedReturn.toFixed(2)}%
                                 </span>
                             </div>
                         </div>
