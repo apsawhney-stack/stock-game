@@ -14,14 +14,26 @@ import { useGameStore, useGameActions } from '../../app/store';
 import { getAllMissions } from '../../core/missions';
 import './StatsScreen.css';
 
-// Define achievements locally for display
+// Define achievements locally for display (all 12 badges)
 const ACHIEVEMENT_LIST = [
+    // Trading achievements
     { id: 'first_trade', name: 'First Trade', description: 'Complete your first buy order', icon: '🎯', xpReward: 50 },
-    { id: 'diversified', name: 'Diversified', description: 'Own 3 different stocks', icon: '🌈', xpReward: 75 },
-    { id: 'news_reader', name: 'News Reader', description: 'Read 5 news articles', icon: '📰', xpReward: 25 },
-    { id: 'steady_hands', name: 'Steady Hands', description: 'Hold through a 10% dip', icon: '💪', xpReward: 100 },
-    { id: 'profit_maker', name: 'Profit Maker', description: 'Earn 10% profit on a mission', icon: '💰', xpReward: 150 },
     { id: 'ten_trades', name: 'Trading Pro', description: 'Complete 10 trades', icon: '📈', xpReward: 100 },
+    // Learning achievements
+    { id: 'news_reader', name: 'News Reader', description: 'Read 5 news articles', icon: '📰', xpReward: 25 },
+    { id: 'market_watcher', name: 'Market Watcher', description: 'Check prices 20 times', icon: '👀', xpReward: 50 },
+    // Patience achievements
+    { id: 'steady_hands', name: 'Steady Hands', description: 'Hold through a 10% dip', icon: '💪', xpReward: 100 },
+    { id: 'diamond_hands', name: 'Diamond Hands', description: 'Hold a stock for 5+ days', icon: '💎', xpReward: 75 },
+    // Strategy achievements
+    { id: 'diversified', name: 'Diversified', description: 'Own 3 different stocks', icon: '🌈', xpReward: 75 },
+    { id: 'buy_the_dip', name: 'Buy the Dip', description: 'Buy after a 5% drop', icon: '📉', xpReward: 50 },
+    // Milestone achievements
+    { id: 'profit_maker', name: 'Profit Maker', description: 'Earn 10% profit on a mission', icon: '💰', xpReward: 150 },
+    { id: 'first_1000xp', name: 'XP Collector', description: 'Earn 1000 total XP', icon: '⭐', xpReward: 100 },
+    // Dedication achievements
+    { id: 'early_bird', name: 'Early Bird', description: 'Start a mission in the morning', icon: '🌅', xpReward: 25 },
+    { id: 'three_missions', name: 'Mission Master', description: 'Complete 3 missions', icon: '🏆', xpReward: 200 },
 ];
 
 export function StatsScreen() {
@@ -143,7 +155,7 @@ export function StatsScreen() {
                                         <div className="achievement-item__info">
                                             <span className="achievement-item__name">{achievement.name}</span>
                                             <span className="achievement-item__description">
-                                                {isUnlocked ? achievement.description : '???'}
+                                                {achievement.description}
                                             </span>
                                         </div>
                                         {isUnlocked && (
