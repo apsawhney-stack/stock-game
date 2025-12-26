@@ -108,8 +108,8 @@ export const useGameStore = create<GameStore>()(
                         state.session.turn += 1;
                         state.market.turn = state.session.turn;
 
-                        // Store previous prices before update
-                        state.market.previousPrices = { ...state.market.prices };
+                        // Note: previousPrices is handled by updatePrices action
+                        // Don't overwrite it here!
 
                         // Process pending market orders
                         const ordersToProcess = [...state.pendingOrders];
