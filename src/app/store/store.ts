@@ -39,6 +39,7 @@ const initialUI: UIState = {
     currentScreen: 'home',
     notifications: [],
     isLoading: false,
+    selectedTicker: null,
 };
 
 const initialEvents: EventState = {
@@ -331,6 +332,12 @@ export const useGameStore = create<GameStore>()(
                 navigate: (screen: ScreenName) => {
                     set((state) => {
                         state.ui.currentScreen = screen;
+                    });
+                },
+
+                setSelectedTicker: (ticker: string | null) => {
+                    set((state) => {
+                        state.ui.selectedTicker = ticker;
                     });
                 },
 

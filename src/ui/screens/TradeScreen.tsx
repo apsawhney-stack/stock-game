@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, TrendingUp, TrendingDown } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { PriceChart } from '../components/PriceChart';
 import { useGameStore, useGameActions } from '../../app/store';
+import { selectAvailableCash } from '../../app/store/selectors';
 import { GAME_STOCKS } from '../../app/hooks/useMarketEngine';
 import type { Asset } from '../../core/types';
 import './TradeScreen.css';
@@ -15,11 +16,24 @@ export function TradeScreen() {
     const [quantity, setQuantity] = useState(1);
     const [showConfirmation, setShowConfirmation] = useState(false);
 
-    const prices = useGameStore((state) => state.market.prices);
-    const previousPrices = useGameStore((state) => state.market.previousPrices);
-    const priceHistory = useGameStore((state) => state.market.priceHistory);
-    const portfolio = useGameStore((state) => state.portfolio);
+    const state = useGameStore();
+    const prices = state.market.prices;
+    const previousPrices = state.market.previousPrices;
+    const priceHistory = state.market.priceHistory;
+    const portfolio = state.portfolio;
+    const selectedTicker = state.ui.selectedTicker;
+    const availableCash = selectAvailableCash(state);
     const { navigate, submitOrder } = useGameActions();
+
+    // Pre-select stock from dashboard on mount
+    useEffect(() => {
+        if (selectedTicker && !selectedStock) {
+            const stock = GAME_STOCKS.find(s => s.ticker === selectedTicker);
+            if (stock) {
+                setSelectedStock(stock);
+            }
+        }
+    }, [selectedTicker, selectedStock]);
 
     // Calculate stock values
     const getStockPrice = (ticker: string) => prices[ticker] ?? GAME_STOCKS.find(s => s.ticker === ticker)?.basePrice ?? 0;
@@ -36,13 +50,13 @@ export function TradeScreen() {
             .reduce((sum, lot) => sum + lot.shares, 0);
     };
 
-    // Calculate order value
+    // Calculate order value - use available cash for buy checks
     const orderValue = selectedStock ? getStockPrice(selectedStock.ticker) * quantity : 0;
-    const canAffordBuy = orderValue <= portfolio.cash;
+    const canAffordBuy = orderValue <= availableCash;
     const hasEnoughShares = selectedStock ? quantity <= getSharesOwned(selectedStock.ticker) : false;
 
-    // Max quantity user can buy/sell
-    const maxBuyQuantity = selectedStock ? Math.floor(portfolio.cash / getStockPrice(selectedStock.ticker)) : 0;
+    // Max quantity user can buy/sell - use available cash for buys
+    const maxBuyQuantity = selectedStock ? Math.floor(availableCash / getStockPrice(selectedStock.ticker)) : 0;
     const maxSellQuantity = selectedStock ? getSharesOwned(selectedStock.ticker) : 0;
 
     const handleBack = () => {
@@ -96,7 +110,8 @@ export function TradeScreen() {
                 </Button>
                 <h1 className="trade-screen__title">Trade</h1>
                 <div className="trade-screen__cash">
-                    Cash: ${portfolio.cash.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                    {availableCash < portfolio.cash ? 'Available: ' : 'Cash: '}
+                    ${availableCash.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </div>
             </header>
 

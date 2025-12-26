@@ -122,3 +122,18 @@ export function selectTurnInfo(state: GameState) {
         remaining: state.session.maxTurns - state.session.turn,
     };
 }
+
+/**
+ * Get available cash (actual cash minus pending buy orders)
+ */
+export function selectAvailableCash(state: GameState): number {
+    const prices = state.market.prices;
+    const pendingBuyValue = state.pendingOrders
+        .filter(order => order.side === 'buy')
+        .reduce((sum, order) => {
+            const price = prices[order.ticker] ?? 0;
+            return sum + (price * order.quantity);
+        }, 0);
+
+    return Math.max(0, state.portfolio.cash - pendingBuyValue);
+}

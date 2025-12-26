@@ -57,6 +57,7 @@ export interface UIState {
     currentScreen: ScreenName;
     notifications: Notification[];
     isLoading: boolean;
+    selectedTicker: string | null;  // Pre-selected ticker for Trade screen
 }
 
 // Complete game state
@@ -105,6 +106,7 @@ export interface GameActions {
 
     // UI actions
     navigate: (screen: ScreenName) => void;
+    setSelectedTicker: (ticker: string | null) => void;
     addNotification: (notification: Omit<Notification, 'id'>) => void;
     removeNotification: (id: string) => void;
     setLoading: (loading: boolean) => void;

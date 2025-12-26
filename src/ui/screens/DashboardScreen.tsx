@@ -16,7 +16,7 @@ import { NewsCard } from '../components/NewsCard';
 import { XPDisplay } from '../components/XPDisplay';
 import { AIOpponent } from '../components/AIOpponent';
 import { useGameStore, useGameActions } from '../../app/store';
-import { selectTotalValue, selectReturnPercent, selectHoldings, selectTurnInfo } from '../../app/store/selectors';
+import { selectTotalValue, selectReturnPercent, selectHoldings, selectTurnInfo, selectAvailableCash } from '../../app/store/selectors';
 import { useMarketEngine, GAME_STOCKS } from '../../app/hooks/useMarketEngine';
 import { useEventEngine } from '../../app/hooks/useEventEngine';
 import { useScoringEngine } from '../../app/hooks/useScoringEngine';
@@ -25,7 +25,7 @@ import './DashboardScreen.css';
 
 export function DashboardScreen() {
     const state = useGameStore();
-    const { advanceTurn, navigate, markEventRead } = useGameActions();
+    const { advanceTurn, navigate, markEventRead, setSelectedTicker } = useGameActions();
     const portfolio = state.portfolio;
     const prices = state.market.prices;
     const previousPrices = state.market.previousPrices;
@@ -48,6 +48,7 @@ export function DashboardScreen() {
     const returnPercent = selectReturnPercent(state);
     const holdings = selectHoldings(state);
     const turnInfo = selectTurnInfo(state);
+    const availableCash = selectAvailableCash(state);
 
     // Get stock price from store or base price
     const getStockPrice = (ticker: string) => prices[ticker] ?? GAME_STOCKS.find(s => s.ticker === ticker)?.basePrice ?? 0;
@@ -64,6 +65,12 @@ export function DashboardScreen() {
     };
 
     const handleTrade = () => {
+        setSelectedTicker(null); // Clear selection when using Trade button
+        navigate('trade');
+    };
+
+    const handleStockClick = (ticker: string) => {
+        setSelectedTicker(ticker); // Pre-select the stock
         navigate('trade');
     };
 
@@ -132,9 +139,11 @@ export function DashboardScreen() {
 
                             <div className="portfolio-summary__breakdown">
                                 <div className="portfolio-summary__item">
-                                    <span className="portfolio-summary__item-label">Cash</span>
+                                    <span className="portfolio-summary__item-label">
+                                        {availableCash < portfolio.cash ? 'Available' : 'Cash'}
+                                    </span>
                                     <span className="portfolio-summary__item-value">
-                                        ${portfolio.cash.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                        ${availableCash.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                                     </span>
                                 </div>
                                 <div className="portfolio-summary__item">
@@ -187,7 +196,7 @@ export function DashboardScreen() {
                                     <div
                                         key={stock.ticker}
                                         className="stock-row"
-                                        onClick={() => navigate('trade')}
+                                        onClick={() => handleStockClick(stock.ticker)}
                                     >
                                         <div className="stock-row__info">
                                             <span className="stock-row__ticker">{stock.ticker}</span>
