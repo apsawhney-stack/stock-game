@@ -358,7 +358,12 @@ export const useGameStore = create<GameStore>()(
                 // === Event Actions ===
                 triggerEvents: (events: import('../../core/events/types').TriggeredEvent[]) => {
                     set((state) => {
-                        state.events.activeEvents.push(...events as any);
+                        // Move previous events to history before adding new ones
+                        // This prevents duplicate events from accumulating across turns
+                        if (state.events.activeEvents.length > 0) {
+                            state.events.eventHistory.push(...state.events.activeEvents as any);
+                        }
+                        state.events.activeEvents = events as any;
                     });
                 },
 
