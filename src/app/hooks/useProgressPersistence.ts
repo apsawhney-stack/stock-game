@@ -2,18 +2,20 @@
  * useProgressPersistence Hook
  * 
  * Handles save/load of player progress to localStorage
- * Persists scoring and achievements without modifying the store middleware
+ * Persists scoring, achievements, and missions without modifying the store middleware
  */
 
 import { useEffect } from 'react';
 import { useGameStore } from '../store';
 import type { ScoringState, AchievementState } from '../../core/scoring/types';
+import type { MissionState } from '../store/types';
 
 const STORAGE_KEY = 'stockquest_progress';
 
 interface PersistedProgress {
     scoring: ScoringState;
     achievements: AchievementState;
+    missions: MissionState;
     savedAt: number;
 }
 
@@ -25,6 +27,7 @@ export function saveProgress(): void {
     const progress: PersistedProgress = {
         scoring: state.scoring,
         achievements: state.achievements,
+        missions: state.missions,
         savedAt: Date.now(),
     };
 
@@ -64,7 +67,7 @@ export function clearProgress(): void {
 /**
  * Hook to handle progress persistence
  * - Loads progress on mount
- * - Auto-saves on scoring/achievement changes
+ * - Auto-saves on scoring/achievement/mission changes
  */
 export function useProgressPersistence(): void {
     // Load progress on initial mount
@@ -76,6 +79,7 @@ export function useProgressPersistence(): void {
                 ...state,
                 scoring: progress.scoring,
                 achievements: progress.achievements,
+                missions: progress.missions || { completedMissions: [], unlockedMissions: ['first-trade'] },
             }));
         }
     }, []);
@@ -83,7 +87,11 @@ export function useProgressPersistence(): void {
     // Subscribe to changes and auto-save
     useEffect(() => {
         const unsubscribe = useGameStore.subscribe(
-            (state) => ({ scoring: state.scoring, achievements: state.achievements }),
+            (state) => ({
+                scoring: state.scoring,
+                achievements: state.achievements,
+                missions: state.missions,
+            }),
             () => {
                 // Debounce saves - only save after changes settle
                 const timeoutId = setTimeout(() => {
@@ -98,3 +106,4 @@ export function useProgressPersistence(): void {
         return unsubscribe;
     }, []);
 }
+

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
     Trophy,
@@ -7,7 +8,8 @@ import {
     Home,
     Target,
     Sparkles,
-    Star
+    Star,
+    Unlock
 } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
@@ -18,9 +20,16 @@ import { useCountUp } from '../hooks';
 import { AI_PERSONAS } from '../../core/ai/types';
 import './ResultsScreen.css';
 
+// Mission unlock messages
+const UNLOCK_MESSAGES: Record<string, string> = {
+    'steady-growth': '🎮 Level 2: Steady Growth unlocked!',
+    'market-news': '🎮 Level 3: Market News unlocked!',
+};
+
 export function ResultsScreen() {
     const state = useGameStore();
-    const { resetGame, navigate } = useGameActions();
+    const { resetGame, navigate, completeMission } = useGameActions();
+    const [unlockedLevel, setUnlockedLevel] = useState<string | null>(null);
 
     const totalValue = selectTotalValue(state);
     const returnPercent = selectReturnPercent(state);
@@ -31,6 +40,8 @@ export function ResultsScreen() {
     const sessionXP = state.scoring.sessionXP;
     const aiState = state.ai;
     const aiPersona = AI_PERSONAS[aiState.persona];
+    const missionId = state.session.missionId;
+    const unlockedBefore = state.missions.unlockedMissions;
 
     // AI comparison calculations
     const aiReturn = ((aiState.totalValue - startingCash) / startingCash) * 100;
@@ -39,6 +50,23 @@ export function ResultsScreen() {
     const profitLoss = totalValue - startingCash;
     const isWin = returnPercent >= (targetReturn * 100);
     const targetPercent = targetReturn * 100;
+
+    // Handle mission completion on mount
+    useEffect(() => {
+        if (missionId) {
+            const prevUnlocked = [...unlockedBefore];
+            completeMission(missionId, isWin);
+
+            // Check if a new mission was unlocked
+            setTimeout(() => {
+                const currentUnlocked = useGameStore.getState().missions.unlockedMissions;
+                const newlyUnlocked = currentUnlocked.find(m => !prevUnlocked.includes(m));
+                if (newlyUnlocked) {
+                    setUnlockedLevel(newlyUnlocked);
+                }
+            }, 100);
+        }
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     // Animated numbers
     const animatedTotal = useCountUp(totalValue, { duration: 1200, delay: 300 });
@@ -100,6 +128,21 @@ export function ResultsScreen() {
                             : "Great effort! Every investor learns from experience."}
                     </p>
                 </motion.header>
+
+                {/* Level Unlock Notification */}
+                {unlockedLevel && (
+                    <motion.div
+                        className="results-screen__unlock"
+                        variants={itemVariants}
+                    >
+                        <Card variant="glow" padding="md" className="unlock-notification">
+                            <Unlock size={24} className="unlock-notification__icon" />
+                            <span className="unlock-notification__text">
+                                {UNLOCK_MESSAGES[unlockedLevel] || `🎮 New level unlocked!`}
+                            </span>
+                        </Card>
+                    </motion.div>
+                )}
 
                 {/* Performance Card */}
                 <motion.div variants={itemVariants}>

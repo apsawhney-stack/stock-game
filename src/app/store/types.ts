@@ -23,6 +23,13 @@ export interface SessionState {
     startedAt: number | null;  // Timestamp
 }
 
+// Mission progress state
+export interface MissionState {
+    completedMissions: string[];   // IDs of completed missions
+    unlockedMissions: string[];    // IDs of unlocked missions (starts with first-trade)
+}
+
+
 // Market state - current prices and history
 export interface MarketState {
     prices: Record<string, number>;
@@ -59,7 +66,8 @@ export interface GameState {
     events: EventState;
     scoring: ScoringState;
     achievements: AchievementState;
-    ai: AIPortfolioState;             // AI opponent state
+    missions: MissionState;            // Mission progress
+    ai: AIPortfolioState;              // AI opponent state
     portfolio: PortfolioState;
     pendingOrders: Order[];
     orderHistory: Order[];
@@ -73,6 +81,10 @@ export interface GameActions {
     advanceTurn: () => void;
     endMission: () => void;
     resetGame: () => void;
+
+    // Mission actions
+    completeMission: (missionId: string, success: boolean) => void;
+    unlockMission: (missionId: string) => void;
 
     // Market actions
     updatePrices: (prices: Record<string, number>) => void;

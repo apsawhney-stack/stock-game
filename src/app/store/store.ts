@@ -47,6 +47,11 @@ const initialEvents: EventState = {
     readEventIds: [],
 };
 
+const initialMissions = {
+    completedMissions: [],
+    unlockedMissions: ['first-trade'],  // Level 1 unlocked by default
+};
+
 const initialPortfolio: PortfolioState = createInitialPortfolio(10000);
 
 // Generate unique notification ID
@@ -64,6 +69,7 @@ export const useGameStore = create<GameStore>()(
             events: initialEvents,
             scoring: createInitialScoringState(),
             achievements: createInitialAchievementState(),
+            missions: initialMissions,
             ai: createInitialAIPortfolio('nancy', 10000),
             portfolio: initialPortfolio,
             pendingOrders: [],
@@ -223,6 +229,34 @@ export const useGameStore = create<GameStore>()(
                         state.pendingOrders = [];
                         state.orderHistory = [];
                         state.ui.currentScreen = 'home';
+                    });
+                },
+
+                // === Mission Actions ===
+                completeMission: (missionId: string, success: boolean) => {
+                    set((state) => {
+                        if (success && !state.missions.completedMissions.includes(missionId)) {
+                            state.missions.completedMissions.push(missionId);
+
+                            // Unlock next mission based on which one was completed
+                            const UNLOCK_MAP: Record<string, string> = {
+                                'first-trade': 'steady-growth',
+                                'steady-growth': 'market-news',
+                            };
+
+                            const nextMission = UNLOCK_MAP[missionId];
+                            if (nextMission && !state.missions.unlockedMissions.includes(nextMission)) {
+                                state.missions.unlockedMissions.push(nextMission);
+                            }
+                        }
+                    });
+                },
+
+                unlockMission: (missionId: string) => {
+                    set((state) => {
+                        if (!state.missions.unlockedMissions.includes(missionId)) {
+                            state.missions.unlockedMissions.push(missionId);
+                        }
                     });
                 },
 
