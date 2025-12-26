@@ -269,9 +269,11 @@ export const useGameStore = create<GameStore>()(
                         // Track price history for charts
                         for (const [ticker, price] of Object.entries(prices)) {
                             if (!state.market.priceHistory[ticker]) {
-                                state.market.priceHistory[ticker] = [];
+                                // Initialize with price twice so chart has 2 points for line
+                                state.market.priceHistory[ticker] = [price, price];
+                            } else {
+                                state.market.priceHistory[ticker].push(price);
                             }
-                            state.market.priceHistory[ticker].push(price);
                         }
                     });
                 },

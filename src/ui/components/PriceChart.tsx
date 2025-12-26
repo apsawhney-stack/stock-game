@@ -62,7 +62,8 @@ export function PriceChart({
 
         const minPrice = Math.min(...prices);
         const maxPrice = Math.max(...prices);
-        const priceRange = maxPrice - minPrice || 1; // Avoid division by zero
+        const priceRange = maxPrice - minPrice;
+        const isFlat = priceRange === 0;
 
         // Calculate chart dimensions
         const chartWidth = width - PADDING * 2;
@@ -71,7 +72,10 @@ export function PriceChart({
         // Generate path points
         const points = prices.map((price, index) => {
             const x = PADDING + (index / Math.max(prices.length - 1, 1)) * chartWidth;
-            const y = PADDING + chartHeight - ((price - minPrice) / priceRange) * chartHeight;
+            // If all prices are the same (flat), center the line vertically
+            const y = isFlat
+                ? PADDING + chartHeight / 2
+                : PADDING + chartHeight - ((price - minPrice) / priceRange) * chartHeight;
             return { x, y };
         });
 

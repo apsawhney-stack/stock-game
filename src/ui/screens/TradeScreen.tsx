@@ -160,7 +160,7 @@ export function TradeScreen() {
                             <p className="order-form__stock-name">{selectedStock.name}</p>
 
                             {/* Price Chart */}
-                            {priceHistory[selectedStock.ticker] && priceHistory[selectedStock.ticker].length > 1 && (
+                            {priceHistory[selectedStock.ticker] && priceHistory[selectedStock.ticker].length >= 1 && (
                                 <div className="order-form__chart">
                                     <PriceChart
                                         prices={priceHistory[selectedStock.ticker]}
