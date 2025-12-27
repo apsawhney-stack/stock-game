@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Settings, Lightbulb } from 'lucide-react';
+import { Play, Settings, Lightbulb, Volume2, VolumeX } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { useGameActions } from '../../app/store';
+import { useSoundEffects } from '../../app/hooks/useSoundEffects';
 import './HomeScreen.css';
 
 // Daily tips for learning
@@ -21,6 +22,8 @@ const dailyTips = [
 export function HomeScreen() {
     const [currentTip, setCurrentTip] = useState(0);
     const { startMission, navigate } = useGameActions();
+    const { isSoundEnabled, setSoundEnabled } = useSoundEffects();
+    const [soundOn, setSoundOn] = useState(isSoundEnabled());
 
     useEffect(() => {
         // Rotate tips every 10 seconds
@@ -29,6 +32,12 @@ export function HomeScreen() {
         }, 10000);
         return () => clearInterval(interval);
     }, []);
+
+    const toggleSound = () => {
+        const newValue = !soundOn;
+        setSoundOn(newValue);
+        setSoundEnabled(newValue);
+    };
 
     return (
         <div className="home-screen">
@@ -53,6 +62,22 @@ export function HomeScreen() {
 
             {/* Header */}
             <header className="home-screen__header">
+                <motion.div
+                    className="home-screen__sound-toggle"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                >
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        icon={soundOn ? <Volume2 size={20} /> : <VolumeX size={20} />}
+                        onClick={toggleSound}
+                        className="sound-toggle-btn"
+                    >
+                        {null}
+                    </Button>
+                </motion.div>
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}

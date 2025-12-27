@@ -4,13 +4,18 @@ import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
 import { useGameStore, useGameActions } from '../../app/store';
+import { useSoundEffects } from '../../app/hooks/useSoundEffects';
 import './MissionBriefingScreen.css';
 
 export function MissionBriefingScreen() {
     const session = useGameStore((state) => state.session);
     const { navigate } = useGameActions();
+    const { playSound } = useSoundEffects();
 
     const handleStartMission = () => {
+        // Play mission start sound
+        playSound('missionStart');
+
         // Update phase to playing and navigate to dashboard
         useGameStore.setState((state) => {
             state.session.phase = 'playing';

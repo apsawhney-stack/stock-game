@@ -7,3 +7,4 @@ export { useEventEngine } from './useEventEngine';
 export { useScoringEngine } from './useScoringEngine';
 export { useAIEngine } from './useAIEngine';
 export { useProgressPersistence, saveProgress, loadProgress, clearProgress } from './useProgressPersistence';
+export { useSoundEffects } from './useSoundEffects';

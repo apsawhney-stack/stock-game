@@ -59,6 +59,23 @@
     z-index: 1;
 }
 
+/* Sound toggle button */
+.home-screen__sound-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+}
+
+.sound-toggle-btn {
+    opacity: 0.7;
+    transition: opacity var(--transition-fast);
+}
+
+.sound-toggle-btn:hover {
+    opacity: 1;
+}
+
 .logo {
     display: flex;
     align-items: center;

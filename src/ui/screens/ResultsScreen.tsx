@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import {
     Trophy,
@@ -18,6 +18,7 @@ import { useGameStore, useGameActions } from '../../app/store';
 import { selectTotalValue, selectReturnPercent, selectHoldings } from '../../app/store/selectors';
 import { useCountUp } from '../hooks';
 import { AI_PERSONAS } from '../../core/ai/types';
+import { useSoundEffects } from '../../app/hooks/useSoundEffects';
 import './ResultsScreen.css';
 
 // Mission unlock messages
@@ -30,6 +31,8 @@ export function ResultsScreen() {
     const state = useGameStore();
     const { resetGame, navigate, completeMission } = useGameActions();
     const [unlockedLevel, setUnlockedLevel] = useState<string | null>(null);
+    const { playSound } = useSoundEffects();
+    const soundPlayedRef = useRef(false);
 
     const totalValue = selectTotalValue(state);
     const returnPercent = selectReturnPercent(state);
@@ -51,6 +54,14 @@ export function ResultsScreen() {
     const isWin = returnPercent >= (targetReturn * 100);
     const targetPercent = targetReturn * 100;
 
+    // Play win/lose sound on mount
+    useEffect(() => {
+        if (!soundPlayedRef.current) {
+            soundPlayedRef.current = true;
+            playSound(isWin ? 'win' : 'lose');
+        }
+    }, [isWin, playSound]);
+
     // Handle mission completion on mount
     useEffect(() => {
         if (missionId) {
@@ -63,6 +74,7 @@ export function ResultsScreen() {
                 const newlyUnlocked = currentUnlocked.find(m => !prevUnlocked.includes(m));
                 if (newlyUnlocked) {
                     setUnlockedLevel(newlyUnlocked);
+                    playSound('levelUnlock');
                 }
             }, 100);
         }

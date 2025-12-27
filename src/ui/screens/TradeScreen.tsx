@@ -7,6 +7,7 @@ import { PriceChart } from '../components/PriceChart';
 import { useGameStore, useGameActions } from '../../app/store';
 import { selectAvailableCash } from '../../app/store/selectors';
 import { GAME_STOCKS } from '../../app/hooks/useMarketEngine';
+import { useSoundEffects } from '../../app/hooks/useSoundEffects';
 import type { Asset } from '../../core/types';
 import './TradeScreen.css';
 
@@ -24,6 +25,7 @@ export function TradeScreen() {
     const selectedTicker = state.ui.selectedTicker;
     const availableCash = selectAvailableCash(state);
     const { navigate, submitOrder } = useGameActions();
+    const { playSound } = useSoundEffects();
 
     // Pre-select stock from dashboard on mount
     useEffect(() => {
@@ -76,6 +78,9 @@ export function TradeScreen() {
 
     const handleSubmitOrder = () => {
         if (!selectedStock) return;
+
+        // Play buy/sell sound
+        playSound(orderSide === 'buy' ? 'buy' : 'sell');
 
         submitOrder({
             type: 'market',
