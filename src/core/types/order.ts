@@ -76,6 +76,9 @@ export interface Order {
     /** Turn when order expires */
     readonly expiresAt: number;
 
+    /** Price when order was placed (for market orders, this is the execution price) */
+    readonly targetPrice: number;
+
     /** Average fill price (if filled) */
     readonly fillPrice?: number;
 

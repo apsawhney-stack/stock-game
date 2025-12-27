@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Settings, Lightbulb, Volume2, VolumeX } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
+import { MissionSelector } from '../components/MissionSelector';
 import { useGameActions } from '../../app/store';
 import { useSoundEffects } from '../../app/hooks/useSoundEffects';
 import './HomeScreen.css';
@@ -21,7 +22,8 @@ const dailyTips = [
 
 export function HomeScreen() {
     const [currentTip, setCurrentTip] = useState(0);
-    const { startMission, navigate } = useGameActions();
+    const [showMissionSelector, setShowMissionSelector] = useState(false);
+    const { navigate } = useGameActions();
     const { isSoundEnabled, setSoundEnabled } = useSoundEffects();
     const [soundOn, setSoundOn] = useState(isSoundEnabled());
 
@@ -107,11 +109,11 @@ export function HomeScreen() {
                         size="lg"
                         icon={<Play size={28} />}
                         className="play-button"
-                        onClick={() => startMission('mission-1')}
+                        onClick={() => setShowMissionSelector(true)}
                     >
                         PLAY
                     </Button>
-                    <p className="home-screen__subtitle">Start your investing adventure</p>
+                    <p className="home-screen__subtitle">Choose your mission</p>
                 </motion.div>
 
                 <motion.div
@@ -189,6 +191,12 @@ export function HomeScreen() {
                     </Button>
                 </motion.div>
             </footer>
+
+            {/* Mission Selector Modal */}
+            <MissionSelector
+                isOpen={showMissionSelector}
+                onClose={() => setShowMissionSelector(false)}
+            />
         </div>
     );
 }

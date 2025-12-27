@@ -14,6 +14,23 @@ import type { ScoringState, XPEarnedEvent } from '../../core/scoring/types';
 import { createInitialScoringState, createInitialAchievementState } from '../../core/scoring/types';
 import type { AIPortfolioState, AIDecision } from '../../core/ai/types';
 import { createInitialAIPortfolio } from '../../core/ai/types';
+import missionsData from '../../data/missions.json';
+
+// Mission type from JSON
+interface MissionData {
+    id: string;
+    level: number;
+    name: string;
+    subtitle: string;
+    goal: string;
+    description: string;
+    startingCash: number;
+    maxTurns: number;
+    targetReturn: number;
+    difficulty: string;
+}
+
+const MISSIONS = missionsData.missions as MissionData[];
 
 // Initial states
 const initialSession: SessionState = {
@@ -80,20 +97,28 @@ export const useGameStore = create<GameStore>()(
             actions: {
                 // === Session Actions ===
                 startMission: (missionId: string) => {
+                    // Find mission data from JSON
+                    const mission = MISSIONS.find(m => m.id === missionId);
+                    if (!mission) {
+                        console.error(`Mission not found: ${missionId}`);
+                        return;
+                    }
+
                     set((state) => {
                         state.session.missionId = missionId;
                         state.session.phase = 'briefing';
                         state.session.turn = 0;
                         state.session.startedAt = Date.now();
 
-                        // Mock mission data (will be loaded from missions.json later)
-                        state.session.missionName = 'First Trade';
-                        state.session.missionGoal = 'Buy your first stock and make a 2% profit!';
-                        state.session.targetReturn = 0.02;
-                        state.session.maxTurns = 10;
+                        // Use mission data from JSON
+                        state.session.missionName = mission.name;
+                        state.session.missionGoal = mission.goal;
+                        state.session.targetReturn = mission.targetReturn;
+                        state.session.maxTurns = mission.maxTurns;
+                        state.session.startingCash = mission.startingCash;
 
-                        // Reset portfolio (cast to any to handle readonly array)
-                        state.portfolio = createInitialPortfolio(state.session.startingCash) as any;
+                        // Reset portfolio with mission-specific starting cash
+                        state.portfolio = createInitialPortfolio(mission.startingCash) as any;
 
                         // Clear orders
                         state.pendingOrders = [];
@@ -120,9 +145,10 @@ export const useGameStore = create<GameStore>()(
                         for (const order of ordersToProcess) {
                             // Only process market orders (limit orders would need price checks)
                             if (order.type === 'market') {
-                                const price = state.market.prices[order.ticker];
-                                if (price) {
-                                    const totalValue = price * order.quantity;
+                                // Use the locked-in targetPrice from when order was placed
+                                const fillPrice = order.targetPrice;
+                                if (fillPrice) {
+                                    const totalValue = fillPrice * order.quantity;
 
                                     if (order.side === 'buy') {
                                         // Check if we can afford it
@@ -130,11 +156,11 @@ export const useGameStore = create<GameStore>()(
                                             // Deduct cash
                                             state.portfolio.cash -= totalValue;
 
-                                            // Add new lot
+                                            // Add new lot with the fill price as cost basis
                                             const newLot = {
                                                 ticker: order.ticker,
                                                 shares: order.quantity,
-                                                costBasis: price,
+                                                costBasis: fillPrice,
                                                 acquiredAt: state.session.turn,
                                             };
                                             state.portfolio.lots = [...state.portfolio.lots, newLot] as any;
@@ -144,6 +170,7 @@ export const useGameStore = create<GameStore>()(
                                                 ...order,
                                                 status: 'filled',
                                                 filledQuantity: order.quantity,
+                                                fillPrice: fillPrice,
                                             });
                                         } else {
                                             // Insufficient funds - keep pending
@@ -159,12 +186,12 @@ export const useGameStore = create<GameStore>()(
                                             if (lot.ticker === order.ticker && sharesRemaining > 0) {
                                                 if (lot.shares <= sharesRemaining) {
                                                     // Sell entire lot
-                                                    realizedPnL += (price - lot.costBasis) * lot.shares;
+                                                    realizedPnL += (fillPrice - lot.costBasis) * lot.shares;
                                                     sharesRemaining -= lot.shares;
                                                     // Don't add to updatedLots (lot is closed)
                                                 } else {
                                                     // Partial sell
-                                                    realizedPnL += (price - lot.costBasis) * sharesRemaining;
+                                                    realizedPnL += (fillPrice - lot.costBasis) * sharesRemaining;
                                                     updatedLots.push({
                                                         ...lot,
                                                         shares: lot.shares - sharesRemaining,
@@ -289,6 +316,9 @@ export const useGameStore = create<GameStore>()(
                 // === Order Actions ===
                 submitOrder: (orderRequest: OrderRequest) => {
                     set((state) => {
+                        // Capture the current price at order submission for market orders
+                        const currentPrice = state.market.prices[orderRequest.ticker] ?? 0;
+
                         const order: Order = {
                             id: generateId(),
                             type: orderRequest.type,
@@ -301,6 +331,8 @@ export const useGameStore = create<GameStore>()(
                             status: 'pending',
                             placedAt: state.session.turn,
                             expiresAt: state.session.turn + (orderRequest.expiresInTurns ?? 2),
+                            // For market orders, lock in the current price; for limit orders, use limit price
+                            targetPrice: orderRequest.type === 'market' ? currentPrice : (orderRequest.limitPrice ?? currentPrice),
                         };
                         state.pendingOrders.push(order);
                     });

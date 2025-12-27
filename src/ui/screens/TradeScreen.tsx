@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, TrendingUp, TrendingDown } from 'lucide-react';
 import { Button } from '../components/Button';
@@ -16,6 +16,7 @@ export function TradeScreen() {
     const [orderSide, setOrderSide] = useState<'buy' | 'sell'>('buy');
     const [quantity, setQuantity] = useState(1);
     const [showConfirmation, setShowConfirmation] = useState(false);
+    const navigationTimeoutRef = useRef<number | null>(null);
 
     const state = useGameStore();
     const prices = state.market.prices;
@@ -36,6 +37,15 @@ export function TradeScreen() {
             }
         }
     }, [selectedTicker, selectedStock]);
+
+    // Cleanup navigation timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (navigationTimeoutRef.current) {
+                clearTimeout(navigationTimeoutRef.current);
+            }
+        };
+    }, []);
 
     // Calculate stock values
     const getStockPrice = (ticker: string) => prices[ticker] ?? GAME_STOCKS.find(s => s.ticker === ticker)?.basePrice ?? 0;
@@ -79,6 +89,10 @@ export function TradeScreen() {
     const handleSubmitOrder = () => {
         if (!selectedStock) return;
 
+        // Guard: don't submit if there's a validation error
+        const error = getValidationError();
+        if (error) return;
+
         // Play buy/sell sound
         playSound(orderSide === 'buy' ? 'buy' : 'sell');
 
@@ -89,8 +103,16 @@ export function TradeScreen() {
             quantity,
         });
 
+        // Clear selection to prevent misleading validation error after submit
+        setSelectedStock(null);
+        setQuantity(1);
         setShowConfirmation(true);
-        setTimeout(() => {
+
+        // Clear any previous timeout and set new one
+        if (navigationTimeoutRef.current) {
+            clearTimeout(navigationTimeoutRef.current);
+        }
+        navigationTimeoutRef.current = window.setTimeout(() => {
             navigate('dashboard');
         }, 1500);
     };
@@ -99,7 +121,9 @@ export function TradeScreen() {
     const getValidationError = (): string | null => {
         if (!selectedStock) return null;
         if (quantity <= 0) return 'Quantity must be greater than 0';
-        if (orderSide === 'buy' && !canAffordBuy) return `Not enough cash (need $${orderValue.toFixed(2)})`;
+        if (orderSide === 'buy' && !canAffordBuy) {
+            return `Not enough cash (need $${orderValue.toFixed(2)}, have $${availableCash.toFixed(2)})`;
+        }
         if (orderSide === 'sell' && !hasEnoughShares) return `Not enough shares (you have ${getSharesOwned(selectedStock.ticker)})`;
         return null;
     };

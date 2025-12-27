@@ -9,7 +9,8 @@ import {
     Target,
     Sparkles,
     Star,
-    Unlock
+    Unlock,
+    Play
 } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
@@ -29,7 +30,7 @@ const UNLOCK_MESSAGES: Record<string, string> = {
 
 export function ResultsScreen() {
     const state = useGameStore();
-    const { resetGame, navigate, completeMission } = useGameActions();
+    const { resetGame, navigate, completeMission, startMission } = useGameActions();
     const [unlockedLevel, setUnlockedLevel] = useState<string | null>(null);
     const { playSound } = useSoundEffects();
     const soundPlayedRef = useRef(false);
@@ -87,6 +88,12 @@ export function ResultsScreen() {
 
     const handlePlayAgain = () => {
         resetGame();
+    };
+
+    const handleContinue = () => {
+        if (unlockedLevel) {
+            startMission(unlockedLevel);
+        }
     };
 
     const handleBackToHome = () => {
@@ -352,14 +359,26 @@ export function ResultsScreen() {
 
                 {/* Actions */}
                 <motion.div className="results-screen__actions" variants={itemVariants}>
-                    <Button
-                        variant="primary"
-                        size="lg"
-                        icon={<RotateCcw size={20} />}
-                        onClick={handlePlayAgain}
-                    >
-                        Play Again
-                    </Button>
+                    {/* Show Continue button when new level unlocked */}
+                    {isWin && unlockedLevel ? (
+                        <Button
+                            variant="primary"
+                            size="lg"
+                            icon={<Play size={20} />}
+                            onClick={handleContinue}
+                        >
+                            Continue to Next Level
+                        </Button>
+                    ) : (
+                        <Button
+                            variant="primary"
+                            size="lg"
+                            icon={<RotateCcw size={20} />}
+                            onClick={handlePlayAgain}
+                        >
+                            Play Again
+                        </Button>
+                    )}
                     <Button
                         variant="ghost"
                         size="lg"

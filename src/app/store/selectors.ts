@@ -127,11 +127,11 @@ export function selectTurnInfo(state: GameState) {
  * Get available cash (actual cash minus pending buy orders)
  */
 export function selectAvailableCash(state: GameState): number {
-    const prices = state.market.prices;
     const pendingBuyValue = state.pendingOrders
         .filter(order => order.side === 'buy')
         .reduce((sum, order) => {
-            const price = prices[order.ticker] ?? 0;
+            // Use the locked-in targetPrice from when order was placed
+            const price = order.targetPrice ?? 0;
             return sum + (price * order.quantity);
         }, 0);
 

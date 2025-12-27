@@ -31,10 +31,10 @@ describe('Game Store', () => {
         it('should set up mission state', () => {
             const { startMission } = useGameStore.getState().actions;
 
-            startMission('mission-1');
+            startMission('first-trade');
 
             const state = useGameStore.getState();
-            expect(state.session.missionId).toBe('mission-1');
+            expect(state.session.missionId).toBe('first-trade');
             expect(state.session.phase).toBe('briefing');
             expect(state.session.turn).toBe(0);
             expect(state.session.missionName).toBe('First Trade');
@@ -45,7 +45,7 @@ describe('Game Store', () => {
         it('should reset portfolio to starting cash', () => {
             const { startMission } = useGameStore.getState().actions;
 
-            startMission('mission-1');
+            startMission('first-trade');
 
             const state = useGameStore.getState();
             expect(state.portfolio.cash).toBe(10000);
@@ -86,7 +86,7 @@ describe('Game Store', () => {
 
         it('should set order expiration', () => {
             const { submitOrder, startMission } = useGameStore.getState().actions;
-            startMission('mission-1');
+            startMission('first-trade');
 
             submitOrder({
                 type: 'limit',
@@ -229,7 +229,7 @@ describe('Game Store', () => {
 
         it('should navigate to results after max turns', () => {
             const { advanceTurn, startMission } = useGameStore.getState().actions;
-            startMission('mission-1');
+            startMission('first-trade');
 
             // Advance to max turns (10)
             for (let i = 0; i < 10; i++) {
@@ -246,7 +246,7 @@ describe('Game Store', () => {
         it('should reset all state', () => {
             const { startMission, submitOrder, advanceTurn, resetGame } = useGameStore.getState().actions;
 
-            startMission('mission-1');
+            startMission('first-trade');
             useGameStore.getState().actions.updatePrices({ BURG: 25.00 });
             submitOrder({ type: 'market', side: 'buy', ticker: 'BURG', quantity: 5 });
             advanceTurn();
@@ -329,7 +329,7 @@ describe('Selectors', () => {
         it('should calculate return percentage', () => {
             const { updatePortfolio, updatePrices, startMission } = useGameStore.getState().actions;
 
-            startMission('mission-1');
+            startMission('first-trade');
             updatePrices({ BURG: 30.00 });
             updatePortfolio({
                 ...useGameStore.getState().portfolio,
@@ -348,7 +348,7 @@ describe('Selectors', () => {
         it('should return turn info', () => {
             const { startMission, advanceTurn } = useGameStore.getState().actions;
 
-            startMission('mission-1');
+            startMission('first-trade');
             advanceTurn();
             advanceTurn();
 
@@ -365,7 +365,7 @@ describe('Selectors', () => {
         it('should return false when below target', () => {
             const { startMission } = useGameStore.getState().actions;
 
-            startMission('mission-1');
+            startMission('first-trade');
 
             const state = useGameStore.getState();
             // Starting with $10,000, target is 2%, we have exactly $10,000
@@ -375,7 +375,7 @@ describe('Selectors', () => {
         it('should return true when above target', () => {
             const { startMission, updatePortfolio, updatePrices } = useGameStore.getState().actions;
 
-            startMission('mission-1');
+            startMission('first-trade');
             updatePrices({ BURG: 30.00 });
             updatePortfolio({
                 ...useGameStore.getState().portfolio,
@@ -391,7 +391,7 @@ describe('Selectors', () => {
         it('should return true when exactly at target', () => {
             const { startMission, updatePortfolio, updatePrices } = useGameStore.getState().actions;
 
-            startMission('mission-1');
+            startMission('first-trade');
             updatePrices({ BURG: 25.50 });
             updatePortfolio({
                 ...useGameStore.getState().portfolio,

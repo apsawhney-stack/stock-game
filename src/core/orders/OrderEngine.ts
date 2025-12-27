@@ -71,6 +71,9 @@ export class OrderEngine implements IOrderEngine {
             status: 'pending',
             placedAt: currentTurn,
             expiresAt,
+            // For market orders, targetPrice will be set by the store with actual price
+            // This OrderEngine is not currently used in the main game flow
+            targetPrice: request.limitPrice ?? request.stopPrice ?? 0,
         };
 
         this.pendingOrders.set(id, order);
